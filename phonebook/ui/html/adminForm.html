@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <title>Document</title>
+</head>
+<body>
+    <header class="header" id="header">
+        <div class="header-part1">
+            <img class="header-img" src="/static/img/AGTU.png">
+            <div class="header-title">Телефонная книга АГТУ</div>
+            <div class="header-search">
+                <input type="text" placeholder="Найти..." id="search">
+            </div>
+        </div>
+        <div class="header-part2">
+            <div class="identified">
+                <img src="/static/img/admin.png">
+                <p>Администратор</p>
+            </div>
+            <a href="/">
+                <div class="header-login-btn">
+                    <p>Выйти</p>
+                </div>
+            </a>
+        </div>
+    </header>
+    <main>
+        <div>
+            <div class="logo">
+            <img src="/static/img/AGTU_2.png">
+            <div class="logo-text">
+                <div class="univer-title">Астраханский государственный технический университет</div>
+                <div class="site-template">Сайт АГТУ: <a href="http://astu.ru">astu.ru</a></div>
+                <div class="site-template">Портал: <a href="http://portal2.astu.ru">portal2.astu.ru</a></div>
+                <div class="site-template">Кабинет студента: <a href="http://kabinet.astu.ru">kabinet.astu.ru</a></div>
+            </div>
+            </div>
+            <div id="employees-container">
+                <div class="container-book">
+                        <div class="container-titles">
+                            <div class="el-title">ФИО</div>
+                            <div class="el-title phone-num">Номер телефона</div>
+                            <div class="el-title phone-num">Короткий номер<br><div style="font-size: 10px; color:#9e9fa5;">*только с телефонов АГТУ</div></div>
+                            <div class="el-title job-title">Должность</div>
+                            <div class="el-title email">Email</div>
+                            <div class="el-title cabinet">Кабинет</div>
+                        </div>
+                        <div id="container-main">
+
+                        </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+<script src="/static/js/phonebookList.js"></script>
+<script src="/static/js/search.js"></script>
+<script src="/static/js/order-btn.js"></script>
+<script src="/static/js/scrollbar.js"></script>
+</html>
