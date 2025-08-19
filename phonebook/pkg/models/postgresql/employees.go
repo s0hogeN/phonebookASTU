@@ -12,7 +12,7 @@ type EmployeesModel struct {
 }
 
 func (m *EmployeesModel) GetEmp(ctx context.Context) ([]*models.Employees, error) {
-	stmt := "select fio, unit, job_title, email, cabinet, short_num from employees order by id"
+	stmt := "select fio, unit, job_title, email, cabinet, short_num from employees order by unit"
 
 	rows, err := m.DB.Query(ctx, stmt)
 	if err != nil {
@@ -47,7 +47,7 @@ func (m *EmployeesModel) GetEmp(ctx context.Context) ([]*models.Employees, error
 func (m *EmployeesModel) GetSearchEmp(ctx context.Context, q string) ([]*models.Employees, error) {
 	query := "%" + q + "%"
 
-	stmt := "select fio, unit, job_title, email, cabinet, short_num from employees where fio like $1 or unit like $1 or job_title like $1 or email like $1 or cabinet like $1 or short_num like $1 order by id"
+	stmt := "select fio, unit, job_title, email, cabinet, short_num from employees where fio like $1 or unit like $1 or email like $1 or short_num like $1 order by unit"
 
 	rows, err := m.DB.Query(ctx, stmt, query)
 	if err != nil {
