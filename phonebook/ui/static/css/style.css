@@ -10,6 +10,10 @@ body {
     align-items: center;
 }
 
+a {
+    text-decoration: none;
+}
+
 html, body {
     margin: 0;
     height: fit-content;
@@ -184,7 +188,11 @@ main .button-list {
     scrollbar-width: thin;
     scrollbar-color: #dadbe0 #444546;
 
-    height: 618px;
+    height: 780px;
+
+    margin-right: 85%;
+
+    position: fixed;
 }
 
 

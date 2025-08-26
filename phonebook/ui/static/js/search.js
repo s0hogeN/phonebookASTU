@@ -199,7 +199,7 @@ searchInput.addEventListener('keyup', (e) => {
             const container = document.getElementById('container-main');
             
             // Инициализация массива отделов
-            const html_mass = Array(150).fill().map(() => ['', false]);
+            const html_mass = Array(151).fill().map(() => ['', false]);
             
             // Заполнение заголовков отделов
             Object.entries(departmentMap).forEach(([name, index]) => {
