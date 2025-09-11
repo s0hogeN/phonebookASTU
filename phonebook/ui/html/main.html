@@ -5,21 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/simplebar.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap" rel="stylesheet">
     <script src="/static/js/simplebar.min.js"></script>
-    <title>Document</title>
+    <script src="/static/js/phonebookList.js"></script>
+    <link href="/static/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <title>Справочник</title>
 </head>
 <body>
     <header class="header" id="header">
         <div class="header-part1">
-            <img class="header-img" src="/static/img/AGTU.png">
-            <a href="/"><div class="header-title">Телефонная книга АГТУ</div></a>
-            <div class="header-search">
-                <input type="text" placeholder="Найти..." id="search">
-            </div>
+            <a href="/"><img class="header-img" src="/static/img/AGTU.png"></a>
+            <a href="/"><div class="header-title">Телефонный справочник АГТУ</div></a>
         </div>
-        <div class="header-part2">
+        <!-- <div class="header-part2">
             <div class="identified">
-                <img src="/static/img/guest_1.png">
+                <img src="../static/img/guest_1.png">
                 <p>Гость</p>
             </div>
             <a href="/author">
@@ -27,71 +27,113 @@
                     <p>Войти</p>
                 </div>
             </a>
-        </div>
+        </div> -->
     </header>
     <main>
-        <div data-simplebar class="button-list">
-            <div class="button-el" id="btn-all">Все подразделения</div>
-            <div class="button-el" id="btn-leaders">Руководители университета</div>
-            <div class="button-el" id="btn-council">Ученый совет</div>
-            <div class="button-el" id="btn-frst-section">Первый отдел</div>
-            <div class="button-el" id="btn-defense">Отдел гражданской обороны, чрезвычайных ситуаций и мобилизациоонной подготовки</div>
-            <div class="button-el" id="btn-accounting">Бухгалтерия</div>
-            <div class="button-el" id="btn-hr">Отдел кадров</div>
-            <div class="button-el" id="btn-legal">Юридический отдел</div>
-            <div class="button-el" id="btn-fin-econ">Отдел правового обеспечения финансово-хозяйственной деятельности и проектов</div>
-            <div class="button-el" id="btn-student-office">Студенческая канцелярия</div>
-            <div class="button-el" id="btn-general">Общий отдел</div>
-            <div class="button-el" id="btn-inter">Международный отдел</div>
-            <div class="button-el" id="btn-academ">Отдел академической мобильности</div>
-            <div class="button-el" id="btn-media">Управление массовых коммуникаций и медиа-проектов</div>
-            <div class="button-el" id="btn-org-ed">Управление по организационно-воспитательной работе</div>
-            <div class="button-el" id="btn-sport">Физкультурно-спортивное сооружение "Спорткомплекс"</div>
-            <div class="button-el" id="btn-uisit">Управление информационных систем и технологий</div>
-            <div class="button-el" id="btn-dispatch">Диспетчерский отдел</div>
-            <div class="button-el" id="btn-ed">Учебный отдел</div>
-            <div class="button-el" id="btn-assistance">Центр содействия трудоустройству выпускников АГТУ</div>
-            <div class="button-el" id="btn-method">Отдел методического обеспечения учебного процесса</div>
-            <div class="button-el" id="btn-ed-pol">Центр образовательной политики</div>
-            <div class="button-el" id="btn-publish">Издательство АГТУ</div>
-            <div class="button-el" id="btn-scient-ed">Научно-образовательный центр профессиональных компетенций</div>
-            <div class="button-el" id="btn-pre-university">Центр довузовской подготовки, профориентации и приему в вуз</div>
-            <div class="button-el" id="btn-library">Научная библиотека</div>
-            <div class="button-el" id="btn-scient-innov">Центр научно-инновационного развития</div>
-            <div class="button-el" id="btn-research">Научно-исследовательская часть</div>
-            <div class="button-el" id="btn-highly-qualified">Отдел подготовки кадров высшей квалификации</div>
-            <div class="button-el" id="btn-marketing">Отдел маркетинга</div>
-            <div class="button-el" id="btn-contract">Договорный отдел</div>
-            <div class="button-el" id="btn-mat-tech">Отдел материально-технического снабжения</div>
-            <div class="button-el" id="btn-plan-eco">Планово экономический отдел</div>
-            <div class="button-el" id="btn-budge-social">Отдел внебюджетной деятельности и социальной защиты</div>
-            <div class="button-el" id="btn-adm-eco">Административно-хозяйственное управление</div>
-            <div class="button-el" id="btn-prop-proj">Отдел по управлению имуществом и проектами</div>
-            <div class="button-el" id="btn-otd">Отдел охраны труда и техники безопасности</div>
-            <div class="button-el" id="btn-dormitories">Общежития</div>
-            <div class="button-el" id="btn-watches">Вахты учебных корпусов</div>
-            <div class="button-el" id="btn-add-struct">Дополнительные структуры</div>
-            <div class="button-el" id="btn-checkpoints">Контрольно-пропускные пункты</div>
-        </div>
-        <div id="list" style="margin-left: 10%;">
-            <div class="logo">
+        <div id="list">
+            <div class="">
+                <div class="logo">
             <img src="/static/img/AGTU_2.png">
-            <div class="logo-text">
-                <div class="univer-title">Астраханский государственный технический университет</div>
-                <div class="site-template">Сайт АГТУ: <a href="http://astu.ru">astu.ru</a></div>
-                <div class="site-template">Портал: <a href="http://portal2.astu.ru">portal2.astu.ru</a></div>
-                <div class="site-template">Кабинет студента: <a href="http://kabinet.astu.ru">kabinet.astu.ru</a></div>
+            <div class="logo-info">
+                <div class="logo-container">
+                    <div class="logo-text">
+                        <div class="univer-title">Астраханский государственный технический университет</div>
+                        <div class="site-template">Сайт АГТУ: <a href="https://astu.ru">astu.ru</a></div>
+                        <div class="site-template">Образовательный портал: <a href="https://portal2.astu.ru">portal2.astu.ru</a></div>
+                        <div class="site-template">Личный кабинет студента: <a href="https://kabinet.astu.ru">kabinet.astu.ru</a></div>
+                        <div class="site-template">Расписание занятий: <a href="https://table.astu.ru">table.astu.ru</a></div>
+                    </div>
+                </div>
+                <!-- <div class="text-contact">
+                    <br>414056, Астраханская область, городской округ город Астрахань, г. Астрахань, ул. Татищева, стр. 16/1 </br>
+                    <span>Приемная комиссия: +7 (8512) 61-41-45, 8-800-700-25-04,</span></br>
+
+                    Приемная ректора: тел. (8512) 61-41-19</br>
+                    
+                    Общий отдел: тел./факс 61-43-66; e-mail: astu@astu.org</br>
+                    
+                    Понедельник-пятница: 8.30 -17.00</br>
+                    
+                    Суббота: 8.30 - 14.00 </br>
+                    
+                    <span>Транспорт</span></br>
+                    
+                    <span>Остановка "АГТУ" (ул. Савушкина)</span></br>
+                    Маршрутные такси: 1с, 4с, 24с, 27с, 29с, 37с, 52с, 57с, 78с, 80с, 90с, 101, 190.</br>
+                    
+                    Автобусы: 19, 25.</br>
+                    
+                    <span>Остановка "АГТУ" (ул. 28 Армии)</span></br>
+                    Маршрутные такси: 35с, 62с.</p>
+                </div> -->
             </div>
+            </div>
+            </div>
+            
+            <div class="line-pod"></div>
+            <div class="units-dropdown">
+                <div class="units-controls">
+                    <button id="units-toggle" class="dropdown-toggle" aria-expanded="false">Выбрать подразделение</button>
+                    <div class="units-search">
+                        <img src="/static/img/icon-search.png" alt="Search" class="search-icon">
+                        <input type="text" placeholder="Найти..." id="search">
+                    </div>
+                </div>
+                <div id="units-menu" class="dropdown-menu" hidden>
+                    <div data-simplebar class="button-list">
+                        <div class="button-el" id="btn-all">Все подразделения</div>
+                        <div class="button-el" id="btn-leaders">Руководители университета</div>
+                        <div class="button-el" id="btn-council">Ученый совет</div>
+                        <div class="button-el" id="btn-frst-section">Первый отдел</div>
+                        <div class="button-el" id="btn-defense">Отдел гражданской обороны, чрезвычайных ситуаций и мобилизациоонной подготовки</div>
+                        <div class="button-el" id="btn-accounting">Бухгалтерия</div>
+                        <div class="button-el" id="btn-hr">Отдел кадров</div>
+                        <div class="button-el" id="btn-legal">Юридический отдел</div>
+                        <div class="button-el" id="btn-fin-econ">Отдел правового обеспечения финансово-хозяйственной деятельности и проектов</div>
+                        <div class="button-el" id="btn-student-office">Студенческая канцелярия</div>
+                        <div class="button-el" id="btn-general">Общий отдел</div>
+                        <div class="button-el" id="btn-inter">Международный отдел</div>
+                        <div class="button-el" id="btn-academ">Отдел академической мобильности</div>
+                        <div class="button-el" id="btn-media">Управление массовых коммуникаций и медиа-проектов</div>
+                        <div class="button-el" id="btn-org-ed">Управление по организационно-воспитательной работе</div>
+                        <div class="button-el" id="btn-sport">Физкультурно-спортивное сооружение "Спорткомплекс"</div>
+                        <div class="button-el" id="btn-uisit">Управление информационных систем и технологий</div>
+                        <div class="button-el" id="btn-dispatch">Диспетчерский отдел</div>
+                        <div class="button-el" id="btn-ed">Учебный отдел</div>
+                        <div class="button-el" id="btn-assistance">Центр содействия трудоустройству выпускников АГТУ</div>
+                        <div class="button-el" id="btn-method">Отдел методического обеспечения учебного процесса</div>
+                        <div class="button-el" id="btn-ed-pol">Центр образовательной политики</div>
+                        <div class="button-el" id="btn-publish">Издательство АГТУ</div>
+                        <div class="button-el" id="btn-scient-ed">Научно-образовательный центр профессиональных компетенций</div>
+                        <div class="button-el" id="btn-pre-university">Центр довузовской подготовки, профориентации и приему в вуз</div>
+                        <div class="button-el" id="btn-library">Научная библиотека</div>
+                        <div class="button-el" id="btn-scient-innov">Центр научно-инновационного развития</div>
+                        <div class="button-el" id="btn-research">Научно-исследовательская часть</div>
+                        <div class="button-el" id="btn-highly-qualified">Отдел подготовки кадров высшей квалификации</div>
+                        <div class="button-el" id="btn-marketing">Отдел маркетинга</div>
+                        <div class="button-el" id="btn-contract">Договорный отдел</div>
+                        <div class="button-el" id="btn-mat-tech">Отдел материально-технического снабжения</div>
+                        <div class="button-el" id="btn-plan-eco">Планово экономический отдел</div>
+                        <div class="button-el" id="btn-budge-social">Отдел внебюджетной деятельности и социальной защиты</div>
+                        <div class="button-el" id="btn-adm-eco">Административно-хозяйственное управление</div>
+                        <div class="button-el" id="btn-prop-proj">Отдел по управлению имуществом и проектами</div>
+                        <div class="button-el" id="btn-otd">Отдел охраны труда и техники безопасности</div>
+                        <div class="button-el" id="btn-dormitories">Общежития</div>
+                        <div class="button-el" id="btn-watches">Вахты учебных корпусов</div>
+                        <div class="button-el" id="btn-add-struct">Дополнительные структуры</div>
+                        <div class="button-el" id="btn-checkpoints">Контрольно-пропускные пункты</div>
+                    </div>
+                </div>
             </div>
             <div id="employees-container">
                 <div class="container-book">
                         <div class="container-titles">
-                            <div class="el-title">ФИО</div>
-                            <div class="el-title phone-num">Номер телефона</div>
-                            <div class="el-title phone-num">Короткий номер<br><div style="font-size: 10px; color:#9e9fa5;">*только с телефонов АГТУ</div></div>
-                            <div class="el-title job-title">Должность</div>
-                            <div class="el-title email">Email</div>
-                            <div class="el-title cabinet">Кабинет</div>
+                            <div class="el-title fio-title" id="info-title">ФИО</div>
+                            <div class="el-title phone-num phone-title" id="contact-title">Номер телефона</div>
+                            <div class="el-title short-phone-num">Короткий номер<br><div style="font-size: 10px; color:#9e9fa5;">*только с телефонов АГТУ</div></div>
+                            <div class="el-title job-title job-general">Должность</div>
+                            <div class="el-title email email-title">Email</div>
+                            <div class="el-title cabinet cabinet-title">Кабинет</div>
                         </div>
                         <div id="container-main">
 
@@ -101,8 +143,71 @@
         </div>
         
     </main>
+    <footer class="footer">
+        <div class="footer-content">
+            <img class="footer-logo" src="/static/img/ASTU_footer.png" alt="АГТУ">
+            <div class="footer-text">
+                г. Астрахань, ул. Татищева, 16<br>
+                e-mail: post@astu.ru<br>
+                Приемная комиссия: +7 (8512) 61-41-37, +7 (8512) 61-41-45,<br>
+                +7 (8512) 61-43-92, +7 (8512) 61-43-91<br>
+                Пн-Пт: 8.30 -17.00, Сб: 8.30 - 13.00
+            </div>
+            <div class="footer-copy">© 2010-2025<br>Все права защищены. astu.ru</div>
+        </div>
+        <a href="/author" class="footer-login-btn">Войти</a>
+    </footer>
     <script src="/static/js/search.js"></script>
     <script src="/static/js/order-btn.js"></script>
     <script src="/static/js/scrollbar.js"></script>
+    <script>
+      (function() {
+        var toggle = document.getElementById('units-toggle');
+        var menu = document.getElementById('units-menu');
+        if (!toggle || !menu) return;
+        function openMenu() {
+          menu.removeAttribute('hidden');
+          // Force reflow to ensure transition starts
+          void menu.offsetHeight;
+          menu.classList.add('open');
+        }
+        function closeMenu() {
+          menu.classList.remove('open');
+          // Wait for CSS transition to finish, then hide
+          var onTransitionEnd = function(e) {
+            if (e.propertyName === 'max-height') {
+              menu.setAttribute('hidden', '');
+              menu.removeEventListener('transitionend', onTransitionEnd);
+            }
+          };
+          menu.addEventListener('transitionend', onTransitionEnd);
+        }
+        toggle.addEventListener('click', function() {
+          var expanded = toggle.getAttribute('aria-expanded') === 'true';
+          toggle.setAttribute('aria-expanded', String(!expanded));
+          if (expanded) {
+            closeMenu();
+          } else {
+            openMenu();
+          }
+        });
+      })();
+    </script>
+    <script>
+      (function() {
+        var header = document.getElementById('header');
+        if (!header) return;
+        var lastIsBlurred = false;
+        function onScroll() {
+          var shouldBlur = window.scrollY > 10;
+          if (shouldBlur !== lastIsBlurred) {
+            header.classList.toggle('blurred', shouldBlur);
+            lastIsBlurred = shouldBlur;
+          }
+        }
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+      })();
+    </script>
 </body>
 </html>

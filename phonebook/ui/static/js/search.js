@@ -161,7 +161,7 @@ function createEmployeeRow(emp) {
   let phoneHtml = '-';
   if (emp.short_num) {
     const shortNums = emp.short_num.split(' ').map(num => 
-      num.length === 4 ? `8(8512)61-4${num}` : num
+      num.length === 3 ? `88512614${num}` : num
     );
     phoneHtml = shortNums.join('<br>');
   }
@@ -413,8 +413,8 @@ searchInput.addEventListener('keyup', (e) => {
             let phoneHtml = '';
             if (emp.short_num !== '') {
                 short.forEach(num => {
-                    if (num.length == 4) {
-                        phoneHtml += `8(8512)61-4${num}<br>`;
+                    if (num.length == 3) {
+                        phoneHtml += `88512614${num}<br>`;
                     } else {
                         phoneHtml += `${num}<br>`;
                     }

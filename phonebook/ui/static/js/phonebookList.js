@@ -9,11 +9,18 @@ window.addEventListener("load", () => {
         return response.json();
     })
     .then(employees => {
+        function isMobileView() {
+            return window.matchMedia('(max-width: 768px)').matches;
+        }
         console.log(employees);
         const container = document.getElementById('container-main');
         
         if (!employees || !Array.isArray(employees)) {
             throw new Error('Employees data is not an array');
+        }
+        if (isMobileView()) {
+            document.getElementById('info-title').innerHTML = 'ФИО<br>Должность';
+            document.getElementById('contact-title').textContent = 'Контактная информация';
         }
 
         // Список всех подразделений
@@ -184,10 +191,10 @@ window.addEventListener("load", () => {
             let email = emp.email.split(" ");
             
             let phoneHtml = '';
-            if (emp.short_num !== '') {
+            if (emp.short_num !== '' && emp.short_num.length < 4) {
                 short.forEach(num => {
-                    if (num.length == 4) {
-                        phoneHtml += `8(8512)61-4${num}<br>`;
+                    if (num.length == 3) {
+                        phoneHtml += `88512614${num}<br>`;
                     } else {
                         phoneHtml += `${num}<br>`;
                     }
@@ -200,6 +207,17 @@ window.addEventListener("load", () => {
                         <div class="cont-el phone-num"><p>${emp.short_num}</p></div>
                         <div class="cont-el job-title"><p>${emp.job_title || '-'}</p></div>
                         <div class="cont-el email"><p>${email.map(em => `<a href="mailto:${em}"><img src="/static/img/mail.png">${em}</a>`).join('<br>')}</p></div>
+                        <div class="cont-el cabinet"><p>${emp.cabinet || '-'}</p></div>
+                    </div>
+                `;
+            } else if (emp.short_num.length > 3) {
+                return `
+                    <div class="container-row">
+                        <div class="cont-el"><p>${emp.fio || '-'}</p></div>
+                        <div class="cont-el phone-num"><p>${emp.short_num}</p></div>
+                        <div class="cont-el phone-num"><p>-</p></div>
+                        <div class="cont-el job-title"><p>${emp.job_title || '-'}</p></div>
+                        <div class="cont-el email"><p><a href="mailto:${emp.email}"><img src="/static/img/mail.png">${emp.email}</a></p></div>
                         <div class="cont-el cabinet"><p>${emp.cabinet || '-'}</p></div>
                     </div>
                 `;
@@ -217,10 +235,57 @@ window.addEventListener("load", () => {
             }
         }
 
+        function createEmployeeRowForMobile(emp) {
+            let short = emp.short_num.split(" ");
+            let email = emp.email.split(" ");
+            
+            let phoneHtml = '';
+            if (emp.short_num !== '' && emp.short_num.length < 4) {
+                short.forEach(num => {
+                    if (num.length == 3) {
+                        phoneHtml += `88512614${num}`;
+                    } else {
+                        phoneHtml += `${num}<br>`;
+                    }
+                });
+                
+                return `
+                    <div class="container-row">
+                        <div class="cont-info-1">
+                            <div class="cont-el fio"><p>${emp.fio || '-'}</p></div>
+                            <div class="cont-el job-title"><p>${emp.job_title || '-'}</p></div>
+                        </div>
+                        <div class="cont-info-2">
+                            <div class="cont-el phone-num"><p><a href="tel:${phoneHtml}">${phoneHtml}</a></p></div>
+                            <div class="cont-el email"><p>${email.map(em => `<a href="mailto:${em}">${em}</a>`).join('<br>')}</p></div>
+                        </div>
+                        <div class="cont-el cabinet"><p>${emp.cabinet || '-'}</p></div>
+                    </div>
+                `;
+            } else {
+                return `
+                    <div class="container-row">
+                        <div class="cont-info-1">
+                            <div class="cont-el fio"><p>${emp.fio || '-'}</p></div>
+                            <div class="cont-el job-title"><p>${emp.job_title || '-'}</p></div>
+                        </div>
+                        <div class="cont-info-2">
+                            <div class="cont-el email"><p>${email.map(em => `<a href="mailto:${em}">${em}</a>`).join('<br>')}</p></div>
+                        </div>
+                        <div class="cont-el cabinet"><p>${emp.cabinet || '-'}</p></div>
+                    </div>
+                `;
+            }
+        }
+
         // Распределяем сотрудников по подразделениям
         employees.forEach(emp => {
             if (departmentHtml.hasOwnProperty(emp.unit)) {
-                departmentHtml[emp.unit] += createEmployeeRow(emp);
+                if (isMobileView()) {
+                    departmentHtml[emp.unit] += createEmployeeRowForMobile(emp);
+                } else {
+                    departmentHtml[emp.unit] += createEmployeeRow(emp);
+                }
             }
         });
 

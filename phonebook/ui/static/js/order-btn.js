@@ -46,7 +46,7 @@ function createEmployeeRow(emp) {
   let phoneHtml = '-';
   if (emp.short_num) {
     const shortNums = emp.short_num.split(' ').map(num => 
-      num.length === 4 ? `8(8512)61-4${num}` : num
+      num.length === 3 ? `88512614${num}` : num
     );
     phoneHtml = shortNums.join('<br>');
   }
