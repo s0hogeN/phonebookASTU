@@ -19,6 +19,7 @@ type application struct {
 	ctx           context.Context
 	employees     *postgresql.EmployeesModel
 	users         *postgresql.UsersModel
+	units         *postgresql.UnitsModel
 	templateCache map[string]*template.Template
 	flag          bool
 }
@@ -46,11 +47,11 @@ func main() {
 	defer db.Close(ctx)
 
 	app := &application{
-		errorLog:  errorLog,
-		infoLog:   infoLog,
-		ctx:       ctx,
-		employees: &postgresql.EmployeesModel{DB: db},
-
+		errorLog:      errorLog,
+		infoLog:       infoLog,
+		ctx:           ctx,
+		employees:     &postgresql.EmployeesModel{DB: db},
+		units:         &postgresql.UnitsModel{DB: db},
 		templateCache: templateCache,
 		flag:          false,
 	}

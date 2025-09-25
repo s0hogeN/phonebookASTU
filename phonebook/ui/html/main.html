@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-16">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -80,48 +80,11 @@
                     </div>
                 </div>
                 <div id="units-menu" class="dropdown-menu" hidden>
-                    <div data-simplebar class="button-list">
+                    <div data-simplebar class="button-list" id="btn-list">
                         <div class="button-el" id="btn-all">Все подразделения</div>
-                        <div class="button-el" id="btn-leaders">Руководители университета</div>
-                        <div class="button-el" id="btn-council">Ученый совет</div>
-                        <div class="button-el" id="btn-frst-section">Первый отдел</div>
-                        <div class="button-el" id="btn-defense">Отдел гражданской обороны, чрезвычайных ситуаций и мобилизациоонной подготовки</div>
-                        <div class="button-el" id="btn-accounting">Бухгалтерия</div>
-                        <div class="button-el" id="btn-hr">Отдел кадров</div>
-                        <div class="button-el" id="btn-legal">Юридический отдел</div>
-                        <div class="button-el" id="btn-fin-econ">Отдел правового обеспечения финансово-хозяйственной деятельности и проектов</div>
-                        <div class="button-el" id="btn-student-office">Студенческая канцелярия</div>
-                        <div class="button-el" id="btn-general">Общий отдел</div>
-                        <div class="button-el" id="btn-inter">Международный отдел</div>
-                        <div class="button-el" id="btn-academ">Отдел академической мобильности</div>
-                        <div class="button-el" id="btn-media">Управление массовых коммуникаций и медиа-проектов</div>
-                        <div class="button-el" id="btn-org-ed">Управление по организационно-воспитательной работе</div>
-                        <div class="button-el" id="btn-sport">Физкультурно-спортивное сооружение "Спорткомплекс"</div>
-                        <div class="button-el" id="btn-uisit">Управление информационных систем и технологий</div>
-                        <div class="button-el" id="btn-dispatch">Диспетчерский отдел</div>
-                        <div class="button-el" id="btn-ed">Учебный отдел</div>
-                        <div class="button-el" id="btn-assistance">Центр содействия трудоустройству выпускников АГТУ</div>
-                        <div class="button-el" id="btn-method">Отдел методического обеспечения учебного процесса</div>
-                        <div class="button-el" id="btn-ed-pol">Центр образовательной политики</div>
-                        <div class="button-el" id="btn-publish">Издательство АГТУ</div>
-                        <div class="button-el" id="btn-scient-ed">Научно-образовательный центр профессиональных компетенций</div>
-                        <div class="button-el" id="btn-pre-university">Центр довузовской подготовки, профориентации и приему в вуз</div>
-                        <div class="button-el" id="btn-library">Научная библиотека</div>
-                        <div class="button-el" id="btn-scient-innov">Центр научно-инновационного развития</div>
-                        <div class="button-el" id="btn-research">Научно-исследовательская часть</div>
-                        <div class="button-el" id="btn-highly-qualified">Отдел подготовки кадров высшей квалификации</div>
-                        <div class="button-el" id="btn-marketing">Отдел маркетинга</div>
-                        <div class="button-el" id="btn-contract">Договорный отдел</div>
-                        <div class="button-el" id="btn-mat-tech">Отдел материально-технического снабжения</div>
-                        <div class="button-el" id="btn-plan-eco">Планово экономический отдел</div>
-                        <div class="button-el" id="btn-budge-social">Отдел внебюджетной деятельности и социальной защиты</div>
-                        <div class="button-el" id="btn-adm-eco">Административно-хозяйственное управление</div>
-                        <div class="button-el" id="btn-prop-proj">Отдел по управлению имуществом и проектами</div>
-                        <div class="button-el" id="btn-otd">Отдел охраны труда и техники безопасности</div>
-                        <div class="button-el" id="btn-dormitories">Общежития</div>
-                        <div class="button-el" id="btn-watches">Вахты учебных корпусов</div>
-                        <div class="button-el" id="btn-add-struct">Дополнительные структуры</div>
-                        <div class="button-el" id="btn-checkpoints">Контрольно-пропускные пункты</div>
+                        {{range .Units}}
+                          <div class="button-el" id="btn-{{.ID}}">{{.Label}}</div>
+                        {{end}}
                     </div>
                 </div>
             </div>

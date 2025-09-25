@@ -12,6 +12,12 @@ type templateData struct {
 	//BusTickets []*models.BusTicket
 	Employee  *models.Employees
 	Employees []*models.Employees
+
+	Unit  *models.Units
+	Units []*models.Units
+
+	EmpUnit  *models.EmpUnit
+	EmpUnitS []*models.EmpUnit
 }
 
 func newTemplateCache(dir string) (map[string]*template.Template, error) {

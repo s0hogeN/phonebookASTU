@@ -1,181 +1,255 @@
-const departmentButtons = {
-  'btn-leaders': 'Руководители университета',
-  'btn-council': 'Ученый Совет',
-  'btn-frst-section': 'Первый отдел',
-  'btn-defense': 'Отдел гражданской обороны, чрезвычайных ситуаций и мобилизационной подготовки',
-  'btn-accounting': 'Бухгалтерия',
-  'btn-hr': 'Отдел кадров',
-  'btn-legal': 'Юридический отдел',
-  'btn-fin-econ': 'Отдел правового обеспечения финансово-хозяйственной деятельности и проектов',
-  'btn-student-office': 'Студенческая канцелярия',
-  'btn-general': 'Общий отдел',
-  'btn-inter': 'Международный отдел',
-  'btn-academ': 'Отдел академической мобильности',
-  'btn-media': 'Управление массовых коммуникаций и медиа-проектов',
-  'btn-org-ed': 'Управление по организационно-воспитательной работе',
-  'btn-sport': 'Физкультурно-спортивное сооружение "Спорткомплекс"',
-  'btn-uisit': 'Управление информационных систем и технологий',
-  'btn-dispatch': 'Диспетчерский отдел',
-  'btn-ed': 'Учебный отдел',
-  'btn-assistance': 'Центр содействия трудоустройству выпускников АГТУ',
-  'btn-method': 'Отдел методического обеспечения учебного процесса',
-  'btn-ed-pol': 'Центр образовательной политики',
-  'btn-publish': 'Издательство АГТУ',
-  'btn-scient-ed': 'Научно-образовательный центр профессиональных компетенций',
-  'btn-pre-university': 'Центр довузовской подготовки, профориентации и приему в вуз',
-  'btn-library': 'Научная библиотека',
-  'btn-scient-innov': 'Центр научно-инновационного развития',
-  'btn-research': 'Научно-исследовательская часть',
-  'btn-highly-qualified': 'Отдел подготовки кадров высшей квалификации',
-  'btn-marketing': 'Отдел маркетинга',
-  'btn-contract': 'Договорный отдел',
-  'btn-mat-tech': 'Отдел материально-технического снабжения',
-  'btn-plan-eco': 'Планово-экономический отдел',
-  'btn-budge-social': 'Отдел внебюджетной деятельности и социальной защиты',
-  'btn-adm-eco': 'Административно-хозяйственное управление',
-  'btn-prop-proj': 'Отдел по управлению имуществом и проектами',
-  'btn-otd': 'Отдел охраны труда и техники безопасности',
-  'btn-dormitories': 'Общежития',
-  'btn-watches': 'Вахты учебных корпусов',
-  'btn-add-struct': 'Дополнительные структуры',
-  'btn-checkpoints': 'Контрольно-пропускные пункты',
-};
-
-// Функция для создания HTML строки сотрудника
-function createEmployeeRow(emp) {
-  let phoneHtml = '-';
-  if (emp.short_num) {
-    const shortNums = emp.short_num.split(' ').map(num => 
-      num.length === 3 ? `88512614${num}` : num
-    );
-    phoneHtml = shortNums.join('<br>');
-  }
-  
-  const emailHtml = emp.email.split(' ').map(email => 
-    `<a href="mailto:${email}"><img src="/static/img/mail.png">${email}</a>`
-  ).join('<br>');
-  
-  return `
-    <div class="container-row">
-      <div class="cont-el"><p>${emp.fio || '-'}</p></div>
-      <div class="cont-el phone-num"><p>${phoneHtml}</p></div>
-      <div class="cont-el phone-num"><p>${emp.short_num || '-'}</p></div>
-      <div class="cont-el job-title"><p>${emp.job_title || '-'}</p></div>
-      <div class="cont-el email"><p>${emailHtml || '-'}</p></div>
-      <div class="cont-el cabinet"><p>${emp.cabinet || '-'}</p></div>
-    </div>
-  `;
+function isMobileView() {
+    return window.matchMedia('(max-width: 768px)').matches;
 }
 
-// Универсальная функция для загрузки данных отдела
+// Функция для создания строки сотрудника (десктопная версия)
+function createEmployeeRow(emp) {
+    const fio = emp.fio;
+    const jobTitle = emp.job_title;
+    const email = emp.email;
+    const cabinet = emp.cabinet;
+    const shortNum = emp.short_num;
+    
+    let phoneHtml = '';
+    if (shortNum && shortNum !== '' && shortNum.length < 4) {
+        const shortNums = shortNum.split(" ");
+        shortNums.forEach(num => {
+            if (num.length == 3) {
+                phoneHtml += `88512614${num}<br>`;
+            } else {
+                phoneHtml += `${num}<br>`;
+            }
+        });
+        
+        return `
+            <div class="container-row">
+                <div class="cont-el"><p>${fio}</p></div>
+                <div class="cont-el phone-num"><p>${phoneHtml}</p></div>
+                <div class="cont-el phone-num"><p>${shortNum}</p></div>
+                <div class="cont-el job-title"><p>${jobTitle}</p></div>
+                <div class="cont-el email"><p>${email ? `<a href="mailto:${email}"><img src="/static/img/mail.png">${email}</a>` : '-'}</p></div>
+                <div class="cont-el cabinet"><p>${cabinet}</p></div>
+            </div>
+        `;
+    } else if (shortNum && shortNum.length > 3) {
+        return `
+            <div class="container-row">
+                <div class="cont-el"><p>${fio}</p></div>
+                <div class="cont-el phone-num"><p>${shortNum}</p></div>
+                <div class="cont-el phone-num"><p>-</p></div>
+                <div class="cont-el job-title"><p>${jobTitle}</p></div>
+                <div class="cont-el email"><p>${email ? `<a href="mailto:${email}"><img src="/static/img/mail.png">${email}</a>` : '-'}</p></div>
+                <div class="cont-el cabinet"><p>${cabinet}</p></div>
+            </div>
+        `;
+    } else {
+        return `
+            <div class="container-row">
+                <div class="cont-el"><p>${fio}</p></div>
+                <div class="cont-el phone-num"><p>-</p></div>
+                <div class="cont-el phone-num"><p>-</p></div>
+                <div class="cont-el job-title"><p>${jobTitle}</p></div>
+                <div class="cont-el email"><p>${email ? `<a href="mailto:${email}"><img src="/static/img/mail.png">${email}</a>` : '-'}</p></div>
+                <div class="cont-el cabinet"><p>${cabinet}</p></div>
+            </div>
+        `;
+    }
+}
+
+// Функция для создания строки сотрудника (мобильная версия)
+function createEmployeeRowForMobile(emp) {
+    const fio = emp.fio;
+    const jobTitle = emp.job_title;
+    const email = emp.email;
+    const cabinet = emp.cabinet;
+    const shortNum = emp.short_num;
+    
+    let phoneHtml = '';
+    if (shortNum && shortNum !== '' && shortNum.length < 4) {
+        const shortNums = shortNum.split(" ");
+        shortNums.forEach(num => {
+            if (num.length == 3) {
+                phoneHtml += `88512614${num}`;
+            } else {
+                phoneHtml += `${num}<br>`;
+            }
+        });
+        
+        return `
+            <div class="container-row">
+                <div class="cont-info-1">
+                    <div class="cont-el fio"><p>${fio}</p></div>
+                    <div class="cont-el job-title"><p>${jobTitle}</p></div>
+                </div>
+                <div class="cont-info-2">
+                    <div class="cont-el phone-num"><p><a href="tel:${phoneHtml}">${phoneHtml}</a></p></div>
+                    <div class="cont-el email"><p>${email ? `<a href="mailto:${email}">${email}</a>` : '-'}</p></div>
+                </div>
+                <div class="cont-el cabinet"><p>${cabinet}</p></div>
+            </div>
+        `;
+    } else {
+        return `
+            <div class="container-row">
+                <div class="cont-info-1">
+                    <div class="cont-el fio"><p>${fio}</p></div>
+                    <div class="cont-el job-title"><p>${jobTitle}</p></div>
+                </div>
+                <div class="cont-info-2">
+                    <div class="cont-el email"><p>${email ? `<a href="mailto:${email}">${email}</a>` : '-'}</p></div>
+                </div>
+                <div class="cont-el cabinet"><p>${cabinet}</p></div>
+            </div>
+        `;
+    }
+}
+
+// Функция для загрузки данных по подразделению
 function loadDepartmentData(departmentName) {
-  fetch('/search?q=' + encodeURIComponent(departmentName))
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.json();
+    fetch('/search?q=' + encodeURIComponent(departmentName), {
+        headers: {'Accept': 'application/json'}
     })
-    .then(employees => {
-      const container = document.getElementById('container-main');
-      
-      // Инициализация массива отделов
-      const html_mass = Array(151).fill().map(() => ['', false]);
-      
-      // Заполнение заголовков отделов
-      Object.entries(departmentMap).forEach(([name, index]) => {
-        html_mass[index][0] = `<div class="unit-title">${name}</div>`;
-      });
-
-      // Обработка сотрудников
-      employees.forEach(emp => {
-        const deptIndex = departmentMap[emp.unit];
-        if (deptIndex !== undefined) {
-          html_mass[deptIndex][0] += createEmployeeRow(emp);
-          html_mass[deptIndex][1] = true;
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
         }
-      });
+        return response.json();
+    })
+    .then(data => {
+        const container = document.getElementById('container-main');
 
-      // Формирование итогового HTML
-      let resultHtml = '';
-      html_mass.forEach(([html, hasData]) => {
-        if (hasData) {
-          resultHtml += html;
+        // Обрабатываем разные форматы ответа
+        let empUnits = [];
+        
+        if (Array.isArray(data)) {
+            empUnits = data;
+        } else if (data.employees && Array.isArray(data.employees)) {
+            empUnits = [{
+                unit: { label: departmentName },
+                employees: data.employees
+            }];
+        } else if (typeof data === 'object') {
+            for (let key in data) {
+                if (Array.isArray(data[key])) {
+                    empUnits = [{
+                        unit: { label: departmentName },
+                        employees: data[key]
+                    }];
+                    break;
+                }
+            }
         }
-      });
-      
-      container.innerHTML = resultHtml;
+
+        // Собираем HTML для результатов поиска
+        let fullHtml = '';
+
+        empUnits.forEach((empUnit) => {
+            const employees = empUnit.employees;
+            const unit = empUnit.unit;
+            const unitName = unit.label || departmentName;
+            
+            if (employees && employees.length > 0) {
+                fullHtml += `<div class="unit-title">${unitName}</div>`;
+                employees.forEach(emp => {
+                    if (isMobileView()) {
+                        fullHtml += createEmployeeRowForMobile(emp);
+                    } else {
+                        fullHtml += createEmployeeRow(emp);
+                    }
+                });
+            } 
+        });
+
+        container.innerHTML = fullHtml;
     })
     .catch(error => {
-      console.error('Error:', error);
+        console.error('Ошибка загрузки данных отдела:', error);
+        const container = document.getElementById('container-main');
+        if (container) {
+            container.innerHTML = '<div class="error-message">Ошибка при загрузке данных отдела</div>';
+        }
     });
 }
 
-// Добавляем обработчики для всех кнопок
-Object.entries(departmentButtons).forEach(([btnId, departmentName]) => {
-  const button = document.getElementById(btnId);
-  if (button) {
-    button.addEventListener('click', () => {
-      loadDepartmentData(departmentName);
-    });
-  }
-});
-
-// Обработчик для кнопки "Все подразделения"
-const btnAll = document.getElementById('btn-all');
-if (btnAll) {
-  btnAll.addEventListener('click', () => {
-    // Очищаем поле поиска, если оно есть
+// Функция для загрузки всех подразделений
+function loadAllDepartments() {
+    // Очищаем поле поиска
     const searchInput = document.getElementById('search');
     if (searchInput) searchInput.value = '';
     
-    // Запрашиваем данные с правильным endpoint и заголовками
-    fetch('/', { // Убедитесь, что используете правильный URL
-      headers: {
-        'Accept': 'application/json' // Явно указываем, что ожидаем JSON
-      }
+    // Загружаем главную страницу
+    fetch('/', {
+        headers: {'Accept': 'application/json'}
     })
     .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return response.json();
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
     })
-    .then(employees => {
-      const container = document.getElementById('container-main');
-      
-      // Инициализация массива отделов
-      const html_mass = Array(151).fill().map(() => ['', false]);
-      
-      // Заполнение заголовков отделов
-      Object.entries(departmentMap).forEach(([name, index]) => {
-        html_mass[index][0] = `<div class="unit-title">${name}</div>`;
-      });
-
-      // Обработка всех сотрудников
-      employees.forEach(emp => {
-        const deptIndex = departmentMap[emp.unit];
-        if (deptIndex !== undefined) {
-          html_mass[deptIndex][0] += createEmployeeRow(emp);
-          html_mass[deptIndex][1] = true;
+    .then(empUnits => {
+        const container = document.getElementById('container-main');
+        
+        if (!empUnits || !Array.isArray(empUnits)) {
+            throw new Error('EmpUnits data is not an array');
         }
-      });
 
-      // Формирование итогового HTML
-      let resultHtml = '';
-      html_mass.forEach(([html, hasData]) => {
-        if (hasData) {
-          resultHtml += html;
+        if (isMobileView()) {
+            document.getElementById('info-title').innerHTML = 'ФИО<br>Должность';
+            document.getElementById('contact-title').textContent = 'Контактная информация';
         }
-      });
 
-      container.innerHTML = resultHtml;
+        let fullHtml = '';
+
+        empUnits.forEach(empUnit => {
+            if (!empUnit.employees || empUnit.employees.length === 0) {
+                return;
+            }
+            
+            fullHtml += `<div class="unit-title">${empUnit.unit.label || 'Неизвестное подразделение'}</div>`;
+            
+            empUnit.employees.forEach(emp => {
+                if (isMobileView()) {
+                    fullHtml += createEmployeeRowForMobile(emp);
+                } else {
+                    fullHtml += createEmployeeRow(emp);
+                }
+            });
+        });
+
+        container.innerHTML = fullHtml;
     })
     .catch(error => {
-      console.error('Error loading all employees:', error);
-      // Можно показать сообщение об ошибке пользователю
-      const container = document.getElementById('container-main');
-      container.innerHTML = '<div class="error-message">Не удалось загрузить данные. Пожалуйста, попробуйте позже.</div>';
+        console.error('Ошибка загрузки главной страницы:', error);
+        const container = document.getElementById('container-main');
+        if (container) {
+            container.innerHTML = '<div class="error-message">Ошибка при загрузке данных</div>';
+        }
     });
-  });
 }
+
+// Добавляем обработчики после загрузки DOM
+document.addEventListener('DOMContentLoaded', function() {
+    // Обработчик для кнопки "Все подразделения"
+    const btnAll = document.getElementById('btn-all');
+    if (btnAll) {
+        btnAll.addEventListener('click', loadAllDepartments);
+    }
+
+    // Находим все кнопки подразделений (кроме btn-all)
+    const unitButtons = document.querySelectorAll('.button-el[id^="btn-"]:not(#btn-all)');
+    
+    unitButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Берем текст кнопки как название подразделения
+            const departmentName = this.textContent.trim();
+            loadDepartmentData(departmentName);
+        });
+    });
+});
+
+// Экспортируем функции для использования в других скриптах
+window.orderBtn = {
+    loadDepartmentData,
+    loadAllDepartments
+};

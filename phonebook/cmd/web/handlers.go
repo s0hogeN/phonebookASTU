@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+
+	"phonebook.astu.ru/pkg/models"
 )
 
 func (app *application) home(w http.ResponseWriter, r *http.Request) {
@@ -12,15 +14,16 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 	files := []string{
 		"./ui/html/main.html",
 	}
-
+	units, err := app.units.GetUn(app.ctx)
 	employess, err := app.employees.GetEmp(app.ctx)
+
+	emun := app.UnifEmpUnit(employess, units)
 	if err != nil {
 		app.errorLog.Fatal(err)
 	}
-
 	if r.Header.Get("Accept") == "application/json" {
 		w.Header().Set("Content-Type", "application/json")
-		if err := json.NewEncoder(w).Encode(employess); err != nil {
+		if err := json.NewEncoder(w).Encode(emun); err != nil {
 			app.serverError(w, err)
 		}
 		return
@@ -34,7 +37,13 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = ts.Execute(w, nil)
+	data := struct {
+		Units []*models.Units
+	}{
+		Units: units,
+	}
+
+	err = ts.Execute(w, data)
 	if err != nil {
 		app.serverError(w, err)
 		return
@@ -45,11 +54,14 @@ func (app *application) handlerSearch(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query().Get("q")
 	if query != "" {
 		emp, err := app.employees.GetSearchEmp(app.ctx, query)
+		unit, err := app.units.GetUn(app.ctx)
+		emun := app.UnifEmpUnit(emp, unit)
+
 		if err != nil {
 			app.errorLog.Fatal(err)
 		}
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
-		json.NewEncoder(w).Encode(emp)
+		json.NewEncoder(w).Encode(emun)
 	} else if query == "" {
 		http.Redirect(w, r, "/", 200)
 	}
