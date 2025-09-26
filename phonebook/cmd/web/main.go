@@ -2,7 +2,9 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"flag"
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -24,11 +26,28 @@ type application struct {
 	flag          bool
 }
 
+type Config struct {
+	Login string `json:"login"`
+	Pass  string `json:"pass"`
+	Host  string `json:"host"`
+	Port  string `json:"port"`
+}
+
 func main() {
 	ctx := context.Background()
 
+	file, err := os.ReadFile("./db.json")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var config Config
+	err = json.Unmarshal(file, &config)
+
+	dsn_string := fmt.Sprintf("postgres://%s:%s@%s:%s/phonebook", config.Login, config.Pass, config.Host, config.Port)
+
 	addr := flag.String("addr", ":8080", "Сетевой адрес HTTP")
-	dsn := flag.String("dsn", "postgres://phone_admin:qwe123@localhost:5432/phonebook", "Название PostgreSQL источника данных")
+	dsn := flag.String("dsn", dsn_string, "Название PostgreSQL источника данных")
 	flag.Parse()
 
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
