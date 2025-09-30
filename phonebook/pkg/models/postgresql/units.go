@@ -12,7 +12,7 @@ type UnitsModel struct {
 }
 
 func (m *UnitsModel) GetUn(ctx context.Context) ([]*models.Units, error) {
-	stmt := "select id, label, serialnum from units"
+	stmt := "select id, label, serialnum, visible from units order by serialnum"
 
 	rows, err := m.DB.Query(ctx, stmt)
 	if err != nil {
@@ -28,6 +28,7 @@ func (m *UnitsModel) GetUn(ctx context.Context) ([]*models.Units, error) {
 			&u.ID,
 			&u.Label,
 			&u.SerialNum,
+			&u.Visible,
 		)
 		if err != nil {
 			return nil, err

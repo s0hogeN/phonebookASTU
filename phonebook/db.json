@@ -1,0 +1,6 @@
+{
+    "login" : "phone_admin",
+    "pass" : "qwe123",
+    "host" : "localhost",
+    "port" : "5432"
+}

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"sort"
 
 	"phonebook.astu.ru/pkg/models"
 )
@@ -15,12 +16,16 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 		"./ui/html/main.html",
 	}
 	units, err := app.units.GetUn(app.ctx)
-	employess, err := app.employees.GetEmp(app.ctx)
-
-	emun := app.UnifEmpUnit(employess, units)
 	if err != nil {
 		app.errorLog.Fatal(err)
 	}
+	employess, err := app.employees.GetEmp(app.ctx)
+	if err != nil {
+		app.errorLog.Fatal(err)
+	}
+	emun := app.UnifEmpUnit(employess, units)
+	emun = sortedEmUn(emun)
+
 	if r.Header.Get("Accept") == "application/json" {
 		w.Header().Set("Content-Type", "application/json")
 		if err := json.NewEncoder(w).Encode(emun); err != nil {
@@ -50,16 +55,28 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func sortedEmUn(emun []*models.EmpUnit) []*models.EmpUnit {
+	for i := 0; i < len(emun); i++ {
+		sort.Slice(emun[i].Employees, func(j, z int) bool {
+			return emun[i].Employees[j].SerialNum < emun[i].Employees[z].SerialNum
+		})
+	}
+	return emun
+}
+
 func (app *application) handlerSearch(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query().Get("q")
 	if query != "" {
 		emp, err := app.employees.GetSearchEmp(app.ctx, query)
-		unit, err := app.units.GetUn(app.ctx)
-		emun := app.UnifEmpUnit(emp, unit)
-
 		if err != nil {
 			app.errorLog.Fatal(err)
 		}
+		unit, err := app.units.GetUn(app.ctx)
+		if err != nil {
+			app.errorLog.Fatal(err)
+		}
+		emun := app.UnifEmpUnit(emp, unit)
+		emun = sortedEmUn(emun)
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		json.NewEncoder(w).Encode(emun)
 	} else if query == "" {

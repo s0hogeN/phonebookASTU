@@ -8,13 +8,14 @@ var ErrorNoRecord = errors.New("models: подходящей записи не �
 
 // Сотрудники
 type Employees struct {
-	ID       int    `json:"id"`        // Индекс сотрудника
-	Fio      string `json:"fio"`       // ФИО сотрудника
-	Unit     string `json:"unit"`      // Подразделение
-	JobTitle string `json:"job_title"` // Должность
-	Email    string `json:"email"`     // Почта
-	Cabinet  string `json:"cabinet"`   // Номер кабинета
-	ShortNum string `json:"short_num"` // Короткий номер
+	ID        int    `json:"id"`        // Индекс сотрудника
+	Fio       string `json:"fio"`       // ФИО сотрудника
+	Unit      string `json:"unit"`      // Подразделение
+	JobTitle  string `json:"job_title"` // Должность
+	Email     string `json:"email"`     // Почта
+	Cabinet   string `json:"cabinet"`   // Номер кабинета
+	ShortNum  string `json:"short_num"` // Короткий номер
+	SerialNum int    `json:"serialnum"`
 }
 
 // Подразделения
@@ -22,6 +23,7 @@ type Units struct {
 	ID        int    `json:"id"`
 	Label     string `json:"label"`
 	SerialNum int    `json:"serialnum"`
+	Visible   int    `json:"visible"`
 }
 
 // Подразделения с сотрудниками

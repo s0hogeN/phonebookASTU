@@ -12,7 +12,7 @@ type EmployeesModel struct {
 }
 
 func (m *EmployeesModel) GetEmp(ctx context.Context) ([]*models.Employees, error) {
-	stmt := "select fio, unit, job_title, email, cabinet, short_num from employees order by unit"
+	stmt := "select fio, unit, job_title, email, cabinet, short_num, serialnum from employees order by unit"
 
 	rows, err := m.DB.Query(ctx, stmt)
 	if err != nil {
@@ -31,6 +31,7 @@ func (m *EmployeesModel) GetEmp(ctx context.Context) ([]*models.Employees, error
 			&e.Email,
 			&e.Cabinet,
 			&e.ShortNum,
+			&e.SerialNum,
 		)
 		if err != nil {
 			return nil, err

@@ -83,7 +83,9 @@
                     <div data-simplebar class="button-list" id="btn-list">
                         <div class="button-el" id="btn-all">Все подразделения</div>
                         {{range .Units}}
+                          {{if eq .Visible 1}}
                           <div class="button-el" id="btn-{{.ID}}">{{.Label}}</div>
+                          {{end}}
                         {{end}}
                     </div>
                 </div>
@@ -112,8 +114,7 @@
             <div class="footer-text">
                 г. Астрахань, ул. Татищева, 16<br>
                 e-mail: post@astu.ru<br>
-                Приемная комиссия: +7 (8512) 61-41-37, +7 (8512) 61-41-45,<br>
-                +7 (8512) 61-43-92, +7 (8512) 61-43-91<br>
+                Приемная комиссия: +7(8512)61-41-45, 8(800)700-25-04<br>
                 Пн-Пт: 8.30 -17.00, Сб: 8.30 - 13.00
             </div>
             <div class="footer-copy">© 2010-2025<br>Все права защищены. astu.ru</div>
