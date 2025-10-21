@@ -4,7 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"html/template"
+	"log"
 	"net/http"
+	"os"
 	"sort"
 	"strconv"
 
@@ -86,11 +88,21 @@ func (app *application) handlerSearch(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) AdminPage(w http.ResponseWriter, r *http.Request) {
+	type AdminConfig struct {
+		Login string `json:"login"`
+		Pass  string `json:"pass"`
+	}
+	file, err := os.ReadFile("./admin.json")
+	if err != nil {
+		log.Fatal(err)
+	}
+	var config AdminConfig
+	err = json.Unmarshal(file, &config)
 	if r.Method == "POST" {
 		login := r.FormValue("login")
 		pass := r.FormValue("password")
 		if login != "" && pass != "" {
-			if login == "admin" && pass == "qwe123" {
+			if login == config.Login && pass == config.Pass {
 				app.flag = true
 				http.Redirect(w, r, "/admin", http.StatusFound)
 				return
