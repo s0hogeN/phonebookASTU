@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -42,12 +41,10 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 }
 
 func sortedEmUn(emun []*models.EmpUnit) []*models.EmpUnit {
-	fmt.Println(len(emun))
 	for i := 0; i < len(emun); i++ {
 		sort.Slice(emun[i].Employees, func(j, z int) bool {
 			return emun[i].Employees[j].SerialNum < emun[i].Employees[z].SerialNum
 		})
-		fmt.Println(emun[i])
 	}
 	return emun
 }
@@ -119,7 +116,6 @@ func (app *application) AdminPage(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app *application) AdminInter(w http.ResponseWriter, r *http.Request) {
-	fmt.Println(app.flag)
 	if app.flag {
 		files := []string{
 			"./ui/html/adminForm.html",
