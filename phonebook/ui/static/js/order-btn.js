@@ -15,7 +15,7 @@ function createEmployeeRow(emp) {
         const shortNums = shortNum.split(" ");
         shortNums.forEach(num => {
             if (num.length == 3) {
-                phoneHtml += `88512614${num}<br>`;
+                phoneHtml += `8(851)261-4${num[0]}-${num[1]}${num[2]}<br>`;
             } else {
                 phoneHtml += `${num}<br>`;
             }
@@ -69,7 +69,7 @@ function createEmployeeRowForMobile(emp) {
         const shortNums = shortNum.split(" ");
         shortNums.forEach(num => {
             if (num.length == 3) {
-                phoneHtml += `88512614${num}`;
+                phoneHtml += `8(851)261-4${num[0]}-${num[1]}${num[2]}<br>`;
             } else {
                 phoneHtml += `${num}<br>`;
             }
@@ -149,7 +149,8 @@ function loadDepartmentData(departmentName) {
             const unitName = unit.label || departmentName;
             
             if (employees && employees.length > 0) {
-                fullHtml += `<div class="unit-title">${unitName}</div>`;
+                fullHtml += fullHtml += `<div class="unit-title"><div>${unit.label || 'Неизвестное подразделение'}</div><div class="contact">${unit.email}</div>
+                            <div class="contact">${unit.phone}</div></div>`;
                 employees.forEach(emp => {
                     if (isMobileView()) {
                         fullHtml += createEmployeeRowForMobile(emp);
@@ -198,7 +199,7 @@ function loadAllDepartments() {
             document.getElementById('info-title').innerHTML = 'ФИО<br>Должность';
             document.getElementById('contact-title').textContent = 'Контактная информация';
         }
-
+        label.innerHTML = '<div class="el-title fio-title" id="info-title">ФИО</div><div class="el-title phone-num phone-title" id="contact-title">Номер телефона</div><div class="el-title short-phone-num">Короткий номер<br><div style="font-size: 10px; color:#9e9fa5;">*только с телефонов АГТУ</div></div><div class="el-title job-title job-general">Должность</div><div class="el-title email email-title">Email</div><div class="el-title cabinet cabinet-title">Кабинет</div>';
         let fullHtml = '';
 
         empUnits.forEach(empUnit => {
@@ -206,7 +207,7 @@ function loadAllDepartments() {
                 return;
             }
             
-            fullHtml += `<div class="unit-title">${empUnit.unit.label || 'Неизвестное подразделение'}</div>`;
+            fullHtml += `<div class="unit-title"><div>${empUnit.unit.label || 'Неизвестное подразделение'}</div><div class="contact">${empUnit.unit.email}</div><div class="contact">${empUnit.unit.phone}</div></div>`;
             
             empUnit.employees.forEach(emp => {
                 if (isMobileView()) {
@@ -230,11 +231,6 @@ function loadAllDepartments() {
 
 // Добавляем обработчики после загрузки DOM
 document.addEventListener('DOMContentLoaded', function() {
-    // Обработчик для кнопки "Все подразделения"
-    const btnAll = document.getElementById('btn-all');
-    if (btnAll) {
-        btnAll.addEventListener('click', loadAllDepartments);
-    }
 
     // Находим все кнопки подразделений (кроме btn-all)
     const unitButtons = document.querySelectorAll('.button-el[id^="btn-"]:not(#btn-all)');

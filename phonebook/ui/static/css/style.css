@@ -360,6 +360,13 @@
     font-style: italic;
     }
 
+    .unit-title .contact {
+        color: rgb(4, 93, 153);
+
+        font-weight: 600;
+        font-size: 14px;
+    }
+
     .line-pod {
     border: 1px solid #ededed;
     width: 98%;
@@ -530,7 +537,7 @@
     background: #f2f2f2;
     width: 100%;
     padding: 10px 0px 18px 0px;
-    margin-top: 20px;
+    margin-top: 20%;
     position: relative;
     }
 

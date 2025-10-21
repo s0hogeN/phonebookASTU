@@ -17,9 +17,7 @@ func (app *application) Login(w http.ResponseWriter, r *http.Request) {
 	}
 	app.flag = true
 	if login == "admin" {
-		http.Redirect(w, r, "/admin/", http.StatusSeeOther)
-	} else if login == "kassa" {
-		http.Redirect(w, r, "/kassa/", http.StatusSeeOther)
+		http.Redirect(w, r, "/admin", http.StatusSeeOther)
 	} else {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}

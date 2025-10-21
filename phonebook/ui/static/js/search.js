@@ -1,5 +1,6 @@
 const searchInput = document.getElementById('search');
 const resultDiv = document.getElementById('container-main');
+const label = document.getElementById('container-titles')
 
 function isMobileView() {
     return window.matchMedia('(max-width: 768px)').matches;
@@ -18,7 +19,7 @@ function createEmployeeRow(emp) {
         const shortNums = shortNum.split(" ");
         shortNums.forEach(num => {
             if (num.length == 3) {
-                phoneHtml += `88512614${num}<br>`;
+                phoneHtml += `8(851)261-4${num[0]}-${num[1]}${num[2]}<br>`;
             } else {
                 phoneHtml += `${num}<br>`;
             }
@@ -72,7 +73,7 @@ function createEmployeeRowForMobile(emp) {
         const shortNums = shortNum.split(" ");
         shortNums.forEach(num => {
             if (num.length == 3) {
-                phoneHtml += `88512614${num}`;
+                phoneHtml += `8(851)261-4${num[0]}-${num[1]}${num[2]}<br>`;
             } else {
                 phoneHtml += `${num}<br>`;
             }
@@ -123,7 +124,6 @@ searchInput.addEventListener('keyup', (e) => {
                 return response.json();
             })
             .then(data => {
-                console.log('Результаты поиска:', data);
                 const container = document.getElementById('container-main');
                 
                 if (!data) {
@@ -158,7 +158,7 @@ searchInput.addEventListener('keyup', (e) => {
                         }
                     }
                 }
-
+                label.innerHTML = '<div class="el-title fio-title" id="info-title">ФИО</div><div class="el-title phone-num phone-title" id="contact-title">Номер телефона</div><div class="el-title short-phone-num">Короткий номер<br><div style="font-size: 10px; color:#9e9fa5;">*только с телефонов АГТУ</div></div><div class="el-title job-title job-general">Должность</div><div class="el-title email email-title">Email</div><div class="el-title cabinet cabinet-title">Кабинет</div>';
                 // Собираем HTML для результатов поиска
                 let fullHtml = '';
 
@@ -173,7 +173,8 @@ searchInput.addEventListener('keyup', (e) => {
                     
                     // Добавляем сотрудников
                     if (employees !== null) {
-                      fullHtml += `<div class="unit-title">${unitName}</div>`;
+                      fullHtml += `<div class="unit-title"><div>${unit.label || 'Неизвестное подразделение'}</div><div class="contact">${unit.email}</div>
+                            <div class="contact">${unit.phone}</div></div>`;
                       employees.forEach(emp => {
                         if (isMobileView()) {
                             fullHtml += createEmployeeRowForMobile(emp);
@@ -209,7 +210,6 @@ searchInput.addEventListener('keyup', (e) => {
               function isMobileView() {
                 return window.matchMedia('(max-width: 768px)').matches;
               }
-              console.log(empUnits);
               const container = document.getElementById('container-main');
               
               if (!empUnits || !Array.isArray(empUnits)) {

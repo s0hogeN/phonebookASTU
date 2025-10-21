@@ -15,6 +15,7 @@ type Employees struct {
 	Email     string `json:"email"`     // Почта
 	Cabinet   string `json:"cabinet"`   // Номер кабинета
 	ShortNum  string `json:"short_num"` // Короткий номер
+	UnitGen   string `json:"unit_general"`
 	SerialNum int    `json:"serialnum"`
 }
 
@@ -24,6 +25,8 @@ type Units struct {
 	Label     string `json:"label"`
 	SerialNum int    `json:"serialnum"`
 	Visible   int    `json:"visible"`
+	Email     string `json:"email"`
+	Phone     string `json:"phone"`
 }
 
 // Подразделения с сотрудниками

@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/static/css/simplebar.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap" rel="stylesheet">
     <script src="/static/js/simplebar.min.js"></script>
-    <script src="/static/js/phonebookList.js"></script>
+    <!--<script src="/static/js/phonebookList.js"></script>-->
     <link href="/static/img/favicon.ico" rel="shortcut icon" type="image/x-icon">
     <title>Справочник</title>
 </head>
@@ -44,28 +44,6 @@
                         <div class="site-template">Расписание занятий: <a href="https://table.astu.ru">table.astu.ru</a></div>
                     </div>
                 </div>
-                <!-- <div class="text-contact">
-                    <br>414056, Астраханская область, городской округ город Астрахань, г. Астрахань, ул. Татищева, стр. 16/1 </br>
-                    <span>Приемная комиссия: +7 (8512) 61-41-45, 8-800-700-25-04,</span></br>
-
-                    Приемная ректора: тел. (8512) 61-41-19</br>
-                    
-                    Общий отдел: тел./факс 61-43-66; e-mail: astu@astu.org</br>
-                    
-                    Понедельник-пятница: 8.30 -17.00</br>
-                    
-                    Суббота: 8.30 - 14.00 </br>
-                    
-                    <span>Транспорт</span></br>
-                    
-                    <span>Остановка "АГТУ" (ул. Савушкина)</span></br>
-                    Маршрутные такси: 1с, 4с, 24с, 27с, 29с, 37с, 52с, 57с, 78с, 80с, 90с, 101, 190.</br>
-                    
-                    Автобусы: 19, 25.</br>
-                    
-                    <span>Остановка "АГТУ" (ул. 28 Армии)</span></br>
-                    Маршрутные такси: 35с, 62с.</p>
-                </div> -->
             </div>
             </div>
             </div>
@@ -81,10 +59,11 @@
                 </div>
                 <div id="units-menu" class="dropdown-menu" hidden>
                     <div data-simplebar class="button-list" id="btn-list">
-                        <div class="button-el" id="btn-all">Все подразделения</div>
                         {{range .Units}}
                           {{if eq .Visible 1}}
-                          <div class="button-el" id="btn-{{.ID}}">{{.Label}}</div>
+                          <div class="button-el" id="btn-{{.ID}}">
+                            {{.Label}}
+                          </div>
                           {{end}}
                         {{end}}
                     </div>
@@ -92,13 +71,8 @@
             </div>
             <div id="employees-container">
                 <div class="container-book">
-                        <div class="container-titles">
-                            <div class="el-title fio-title" id="info-title">ФИО</div>
-                            <div class="el-title phone-num phone-title" id="contact-title">Номер телефона</div>
-                            <div class="el-title short-phone-num">Короткий номер<br><div style="font-size: 10px; color:#9e9fa5;">*только с телефонов АГТУ</div></div>
-                            <div class="el-title job-title job-general">Должность</div>
-                            <div class="el-title email email-title">Email</div>
-                            <div class="el-title cabinet cabinet-title">Кабинет</div>
+                        <div class="container-titles" id="container-titles">
+                            
                         </div>
                         <div id="container-main">
 

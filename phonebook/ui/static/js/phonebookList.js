@@ -46,7 +46,7 @@ window.addEventListener("load", () => {
             if (emp.short_num && emp.short_num !== '' && emp.short_num.length < 4) {
                 short.forEach(num => {
                     if (num.length == 3) {
-                        phoneHtml += `88512614${num}<br>`;
+                        phoneHtml += `8(851)261-4${num[0]}-${num[1]}${num[2]}<br>`;
                     } else {
                         phoneHtml += `${num}<br>`;
                     }
@@ -96,7 +96,7 @@ window.addEventListener("load", () => {
             if (emp.short_num && emp.short_num !== '' && emp.short_num.length < 4) {
                 short.forEach(num => {
                     if (num.length == 3) {
-                        phoneHtml += `88512614${num}`;
+                        phoneHtml += `8(851)261-4${num[0]}-${num[1]}${num[2]}<br>`;
                     } else {
                         phoneHtml += `${num}<br>`;
                     }
@@ -141,7 +141,8 @@ window.addEventListener("load", () => {
             }
             
             // Добавляем заголовок подразделения
-            fullHtml += `<div class="unit-title">${empUnit.unit.label || 'Неизвестное подразделение'}</div>`;
+            fullHtml += `<div class="unit-title"><div>${empUnit.unit.label || 'Неизвестное подразделение'}</div><div class="contact">${empUnit.unit.email}</div>
+                            <div class="contact">${empUnit.unit.phone}</div></div>`;
             
             // Добавляем сотрудников этого подразделения
             empUnit.employees.forEach(emp => {
