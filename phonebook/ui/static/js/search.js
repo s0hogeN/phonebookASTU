@@ -122,8 +122,8 @@ function displaySearchResults(data, query) {
             const unit = empUnit.unit;
             
             if (employees && employees.length > 0) {
-                fullHtml += `<div class="unit-title"><div>${unit.label || 'Неизвестное подразделение'}</div><div class="contact">${unit.email || ''}</div>
-                            <div class="contact">${unit.phone || ''}</div></div>`;
+                fullHtml +=  `<div class="unit-title"><div>${unit.label || 'Неизвестное подразделение'}</div><div class="contact"><a href="mailto:${unit.email}"><img src="/static/img/mail.png">${unit.email}</a></div>
+                            <div class="contact">${unit.phone}</div></div>`;
                 
                 employees.forEach(emp => {
                     if (isMobileView()) {
