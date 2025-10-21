@@ -149,7 +149,7 @@ function loadDepartmentData(departmentName) {
             const unitName = unit.label || departmentName;
             
             if (employees && employees.length > 0) {
-                fullHtml += fullHtml += `<div class="unit-title"><div>${unit.label || 'Неизвестное подразделение'}</div><div class="contact">${unit.email}</div>
+                fullHtml +=  `<div class="unit-title"><div>${unit.label || 'Неизвестное подразделение'}</div><div class="contact">${unit.email}</div>
                             <div class="contact">${unit.phone}</div></div>`;
                 employees.forEach(emp => {
                     if (isMobileView()) {

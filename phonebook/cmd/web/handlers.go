@@ -19,23 +19,6 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 		"./ui/html/main.html",
 	}
 	units, err := app.units.GetUn(app.ctx)
-	if err != nil {
-		app.errorLog.Fatal(err)
-	}
-	employess, err := app.employees.GetEmp(app.ctx)
-	if err != nil {
-		app.errorLog.Fatal(err)
-	}
-	emun := app.UnifEmpUnit(employess, units)
-	emun = sortedEmUn(emun)
-
-	if r.Header.Get("Accept") == "application/json" {
-		w.Header().Set("Content-Type", "application/json")
-		if err := json.NewEncoder(w).Encode(emun); err != nil {
-			app.serverError(w, err)
-		}
-		return
-	}
 
 	//app.authorized(w, r) ДОЛЖНО БЫТЬ КЭШИРОВАНИЕ НО Я НЕ ДОДУМАЛ КАК С НИМ РАБОТАТЬ
 
@@ -59,10 +42,12 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 }
 
 func sortedEmUn(emun []*models.EmpUnit) []*models.EmpUnit {
+	fmt.Println(len(emun))
 	for i := 0; i < len(emun); i++ {
 		sort.Slice(emun[i].Employees, func(j, z int) bool {
 			return emun[i].Employees[j].SerialNum < emun[i].Employees[z].SerialNum
 		})
+		fmt.Println(emun[i])
 	}
 	return emun
 }
