@@ -195,6 +195,7 @@ let currentView = 'employees';
                 email: document.getElementById('newEmployeeEmail').value,
                 cabinet: document.getElementById('newEmployeeCabinet').value,
                 short_num: document.getElementById('newEmployeeShortNum').value,
+                unit_general: document.getElementById('newEmployeeUnitGen').value,
                 serialnum: parseInt(document.getElementById('newEmployeeSerialNum').value)
             };
             
@@ -215,6 +216,7 @@ let currentView = 'employees';
                 document.getElementById('newEmployeeEmail').value = '';
                 document.getElementById('newEmployeeCabinet').value = '';
                 document.getElementById('newEmployeeShortNum').value = '';
+                document.getElementById('newEmployeeUnitGen').value = '';
                 document.getElementById('newEmployeeSerialNum').value = '';
             })
             .catch(error => console.error('Error:', error));
@@ -300,7 +302,7 @@ async function updateRecord(id, field, newValue) {
         }
         
         // Отправляем обновленные данные
-        const url = currentView === 'employees' ? `/api/employees/${id}` : `/api/units/unitsup`;
+        const url = currentView === 'employees' ? `/api/employees/empup` : `/api/units/unitsup`;
         const updateResponse = await fetch(url, {
             method: 'PUT',
             headers: {

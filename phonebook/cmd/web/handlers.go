@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -182,8 +183,10 @@ func (app application) createEmpHandler(w http.ResponseWriter, r *http.Request) 
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
+	fmt.Println(emp)
 
-	_ = app.employees.CreateEm(app.ctx, emp)
+	err := app.employees.CreateEm(app.ctx, emp)
+	fmt.Println(err)
 
 	w.Header().Set("Content-Type", "application/json")
 	if err := json.NewEncoder(w).Encode(emp); err != nil {
