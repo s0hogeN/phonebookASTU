@@ -250,7 +250,7 @@ let currentView = 'employees';
         
         function deleteEmployee(id) {
             if (confirm('Вы уверены, что хотите удалить этого сотрудника?')) {
-                fetch(`/api/employees/empup?id=${id}`, {
+                fetch(`/api/employees/empdel?id=${id}`, {
                     method: 'DELETE'
                 })
                 .then(response => {

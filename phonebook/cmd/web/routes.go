@@ -15,8 +15,8 @@ func (app *application) routes() *http.ServeMux {
 	// API для сотрудников
 	mux.HandleFunc("GET /api/employees", app.getEmployeesHandler)
 	mux.HandleFunc("POST /api/employees", app.createEmpHandler)
-	mux.HandleFunc("PUT /api/employees/{id}", app.updateEmpHandler)
-	mux.HandleFunc("DELETE /api/employees/{id}", app.deleteEmpHandler)
+	mux.HandleFunc("PUT /api/employees/empup", app.updateEmpHandler)
+	mux.HandleFunc("DELETE /api/employees/empdel", app.deleteEmpHandler)
 
 	// API для подразделений
 	mux.HandleFunc("GET /api/units", app.getUnitsHandler)
