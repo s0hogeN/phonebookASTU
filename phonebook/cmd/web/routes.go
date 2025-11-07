@@ -11,6 +11,7 @@ func (app *application) routes() *http.ServeMux {
 	mux.HandleFunc("/search", app.handlerSearch)
 	mux.HandleFunc("/author", app.AdminPage)
 	mux.HandleFunc("/admin", app.AdminInter)
+	mux.HandleFunc("/download-excel", app.ExcelDownload)
 
 	// API для сотрудников
 	mux.HandleFunc("GET /api/employees", app.getEmployeesHandler)

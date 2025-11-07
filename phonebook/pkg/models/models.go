@@ -40,3 +40,7 @@ type Users struct {
 	Login string
 	Pass  string
 }
+
+type Table_audit struct {
+	LastMod string
+}

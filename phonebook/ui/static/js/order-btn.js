@@ -31,10 +31,10 @@ function createEmployeeRow(emp) {
         
     return `
         <div class="container-row">
-            <div class="cont-el"><p>${fio}</p></div>
+            <div class="cont-el job-title"><p>${jobTitle}</p></div>
             <div class="cont-el phone-num"><p>${phoneHtml}</p></div>
             <div class="cont-el phone-num"><p>${shortNum}</p></div>
-            <div class="cont-el job-title"><p>${jobTitle}</p></div>
+            <div class="cont-el"><p>${fio}</p></div>
             <div class="cont-el email"><p>${emailHtml}</p></div>
             <div class="cont-el cabinet"><p>${cabinet}</p></div>
         </div>
@@ -69,13 +69,13 @@ function createEmployeeRowForMobile(emp) {
         
     return `
         <div class="container-row">
-            <div class="cont-info-1">
-                <div class="cont-el fio"><p>${fio}</p></div>
-                <div class="cont-el job-title"><p>${jobTitle}</p></div>
-            </div>
             <div class="cont-info-2">
                 <div class="cont-el phone-num"><p>${phoneHtml}</p></div>
                 <div class="cont-el email"><p>${emailHtml}</p></div>
+            </div>
+            <div class="cont-info-1">
+                <div class="cont-el fio"><p>${fio}</p></div>
+                <div class="cont-el job-title"><p>${jobTitle}</p></div>
             </div>
             <div class="cont-el cabinet"><p>${cabinet}</p></div>
         </div>
@@ -117,7 +117,7 @@ function loadDepartmentData(departmentName) {
                 }
             }
         }
-
+        
         // Собираем HTML для результатов поиска
         let fullHtml = '';
 
@@ -127,7 +127,7 @@ function loadDepartmentData(departmentName) {
             const unitName = unit.label || departmentName;
             
             if (employees && employees.length > 0) {
-                fullHtml +=  `<div class="unit-title"><div>${unit.label || 'Неизвестное подразделение'}</div><div class="contact"><a href="mailto:${unit.email}">${unit.email}</a></div>
+                fullHtml +=  `<div class="unit-title"><div>${unit.label || 'Неизвестное подразделение'}</div><div class="contact">эл. почта: <a href="mailto:${unit.email}">${unit.email}</a></div>
                             <div class="contact">${unit.phone}</div></div>`;
                 employees.forEach(emp => {
                     if (isMobileView()) {

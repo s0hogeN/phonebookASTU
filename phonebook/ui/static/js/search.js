@@ -122,7 +122,7 @@ function displaySearchResults(data, query) {
             const unit = empUnit.unit;
             
             if (employees && employees.length > 0) {
-                fullHtml +=  `<div class="unit-title"><div>${unit.label || 'Неизвестное подразделение'}</div><div class="contact"><a href="mailto:${unit.email}">${unit.email}</a></div>
+                fullHtml +=  `<div class="unit-title"><div>${unit.label || 'Неизвестное подразделение'}</div><div class="contact">email: <a href="mailto:${unit.email}">${unit.email}</a></div>
                             <div class="contact">${unit.phone}</div></div>`;
                 
                 employees.forEach(emp => {
@@ -168,10 +168,10 @@ function createEmployeeRow(emp) {
         
     return `
         <div class="container-row">
-            <div class="cont-el"><p>${fio}</p></div>
+            <div class="cont-el job-title"><p>${jobTitle}</p></div>
             <div class="cont-el phone-num"><p>${phoneHtml}</p></div>
             <div class="cont-el phone-num"><p>${shortNum}</p></div>
-            <div class="cont-el job-title"><p>${jobTitle}</p></div>
+            <div class="cont-el"><p>${fio}</p></div>
             <div class="cont-el email"><p>${emailHtml}</p></div>
             <div class="cont-el cabinet"><p>${cabinet}</p></div>
         </div>

@@ -31,8 +31,8 @@
     </header>
     <main>
         <div id="list">
-            <div class="">
-                <div class="logo">
+        <div class="navigation-container">
+          <div class="logo">
             <img src="/static/img/AGTU_2.png">
             <div class="logo-info">
                 <div class="logo-container">
@@ -42,11 +42,62 @@
                         <div class="site-template">Образовательный портал: <a href="https://portal2.astu.ru">portal2.astu.ru</a></div>
                         <div class="site-template">Личный кабинет студента: <a href="https://kabinet.astu.ru">kabinet.astu.ru</a></div>
                         <div class="site-template">Расписание занятий: <a href="https://table.astu.ru">table.astu.ru</a></div>
+                        <div class="site-template">Дата последнего обновления справочника: 
+                          {{if .Audit}}
+                              <b>{{.Audit.LastMod}}</b>
+                          {{end}}
+                        </div>
                     </div>
                 </div>
             </div>
-            </div>
-            </div>
+          </div>
+          <div class="download">
+            <button id="download-button" onclick="downloadExcel()">Скачать справочник</button>
+          </div>
+          <script>
+            function downloadExcel() {
+                // Показываем индикатор загрузки
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = 'Генерация...';
+                btn.disabled = true;
+                
+                // Создаем запрос
+                fetch('/download-excel')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Ошибка сервера');
+                        }
+                        return response.blob();
+                    })
+                    .then(blob => {
+                        // Создаем ссылку для скачивания
+                        const url = window.URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.style.display = 'none';
+                        a.href = url;
+                        a.download = 'report_' + new Date().toISOString().split('T')[0] + '.xlsx';
+                        
+                        document.body.appendChild(a);
+                        a.click();
+                        
+                        // Очистка
+                        window.URL.revokeObjectURL(url);
+                        document.body.removeChild(a);
+                    })
+                    .catch(error => {
+                        console.error('Ошибка:', error);
+                        alert('Ошибка при скачивании файла');
+                    })
+                    .finally(() => {
+                        // Восстанавливаем кнопку
+                        btn.textContent = originalText;
+                        btn.disabled = false;
+                    });
+            }
+        </script>
+        </div>
+
             
             <div class="line-pod"></div>
             <div class="units-dropdown">
@@ -72,10 +123,22 @@
             <div id="employees-container">
                 <div class="container-book">
                         <div class="container-titles" id="container-titles">
-                            <div class="el-title fio-title" id="info-title">ФИО</div><div class="el-title phone-num phone-title" id="contact-title">Номер телефона</div><div class="el-title short-phone-num">Короткий номер<br><div style="font-size: 10px; color:#9e9fa5;">*только с телефонов АГТУ</div></div><div class="el-title job-title job-general">Должность</div><div class="el-title email email-title">Email</div><div class="el-title cabinet cabinet-title">Кабинет</div>
+                            <div class="el-title job-title job-general">Должность</div>
+                            <div class="el-title phone-num phone-title" id="contact-title">Номер телефона</div>
+                            <div class="el-title short-phone-num">Короткий номер<br>
+                              <div style="font-size: 10px; color:#9e9fa5;">*только с телефонов АГТУ</div>
+                            </div>
+                            <div class="el-title fio-title" id="info-title">ФИО</div>
+                            <div class="el-title email email-title">Email</div>
+                            <div class="el-title cabinet cabinet-title">Кабинет</div>
                         </div>
                         <div id="container-main">
-
+                          <div class="tutorial">
+                            <h2>Как пользоваться справочником?</h2>
+                            <h3>Довольно просто!</h3>
+                            <div>Если хотите искать по подразделениям, то жмёте на эту кнопку: <img src="/static/img/Картинка кнопки выбора.png" title="Это картинка кнопки" width="18%" style="vertical-align: middle"> и выбираете нужное вам.</div>
+                            <div>А если вы знаете Фамилию, номер телефона, почту или же подразделение, то смело можете писать всё в строку поиска <img src="/static/img/Картинка поиска.png" title="Это картинка поиска" width="12%" style="vertical-align: middle">. Сайт выведет нужную вам информацию сразу.</div>
+                          </div>
                         </div>
                 </div>
             </div>
@@ -93,7 +156,6 @@
             </div>
             <div class="footer-copy">© 2010-2025<br>Все права защищены. astu.ru</div>
         </div>
-        <a href="/author" class="footer-login-btn">Войти</a>
     </footer>
     <script src="/static/js/search.js"></script>
     <script src="/static/js/order-btn.js"></script>
@@ -129,6 +191,15 @@
             openMenu();
           }
         });
+
+        var buttonElements = document.querySelectorAll('.button-el');
+        buttonElements.forEach(function(button) {
+          button.addEventListener('click', function() {
+            // Закрываем меню
+            closeMenu();
+            toggle.setAttribute('aria-expanded', 'false');
+          });
+        });
       })();
     </script>
     <script>
@@ -148,4 +219,25 @@
       })();
     </script>
 </body>
+<!--	/* .
+	   ⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⢀⣀⣤⣤⣤⣀⣀⣀⣀⡀
+	   ⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⢀⣼⠟⠉⠉⠉⠉⠉⠉⠉⠙⠻⢶⣄
+	   ⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⣾⡏⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠙⣷⡀
+	   ⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⣸⡟⠄⣠⣶⠛⠛⠛⠛⠛⠛⠳⣦⡀⠄⠘⣿⡄
+	   ⠄⠄⠄⠄⠄⠄⠄⠄⠄⢠⣿⠁⠄⢹⣿⣦⣀⣀⣀⣀⣀⣠⣼⡇⠄⠄⠸⣷
+	   ⠄⠄⠄⠄⠄⠄⠄⠄⠄⣼⡏⠄⠄⠄⠉⠛⠿⠿⠿⠿⠛⠋⠁⠄⠄⠄⠄⣿⡄
+	   ⠄⠄⠄⠄⠄⠄⠄⠄⢠⣿⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⢻⡇
+	   ⠄⠄⠄⠄⠄⠄⠄⠄⣸⡇⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⢸⡇
+	   ⠄⠄⠄⠄⠄⠄⠄⠄⣿⠁⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⢸⣧
+	   ⠄⠄⠄⠄⠄⠄⠄⢸⡿⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠈⣿
+	   ⠄⠄⠄⠄⠄⠄⠄⣾⡇⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⣿
+	   ⠄⠄⠄⠄⠄⠄⠄⣿⠃⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⣿
+	   ⠄⠄⠄⠄⠄⠄⢰⣿⠄⠄⠄⠄⣠⡶⠶⠿⠿⠿⠿⢷⣦⠄⠄⠄⠄⠄⠄⠄⣿
+	   ⠄⠄⣀⣀⣀⠄⣸⡇⠄⠄⠄⠄⣿⡀⠄⠄⠄⠄⠄⠄⣿⡇⠄⠄⠄⠄⠄⠄⣿
+	   ⣠⡿⠛⠛⠛⠛⠻⠄⠄⠄⠄⠄⢸⣇⠄⠄⠄⠄⠄⠄⣿⠇⠄⠄⠄⠄⠄⠄⣿
+	   ⢻⣇⠄⠄⠄⠄⠄⠄⠄⠄⠄⢀⣼⡟⠄⠄⢀⣤⣤⣴⣿⠄⠄⠄⠄⠄⠄⠄⣿
+	   ⠈⠙⢷⣶⣦⣤⣤⣤⣴⣶⣾⠿⠛⠁⢀⣶⡟⠉⠄⠄⠄⠄⠄⠄⠄⠄⠄⢀⡟
+	   ⠄⠄⠄⠄⠉⠉⠉⠉⠉⠄⠄⠄⠄⠄⠈⣿⣆⡀⠄⠄⠄⠄⠄⠄⢀⣠⣴⡾⠃
+	   ⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠈⠛⠻⢿⣿⣾⣿⡿⠿⠟⠋⠁ */-->
 </html>
+

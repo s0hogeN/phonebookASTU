@@ -10,6 +10,7 @@ import (
 	"sort"
 	"strconv"
 
+	"github.com/xuri/excelize/v2"
 	"phonebook.astu.ru/pkg/models"
 )
 
@@ -19,6 +20,7 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 		"./ui/html/main.html",
 	}
 	units, err := app.units.GetUn(app.ctx)
+	audit, err := app.audit.GetAudit(app.ctx)
 
 	//app.authorized(w, r) ДОЛЖНО БЫТЬ КЭШИРОВАНИЕ НО Я НЕ ДОДУМАЛ КАК С НИМ РАБОТАТЬ
 
@@ -30,8 +32,10 @@ func (app *application) home(w http.ResponseWriter, r *http.Request) {
 
 	data := struct {
 		Units []*models.Units
+		Audit *models.Table_audit
 	}{
 		Units: units,
+		Audit: audit,
 	}
 
 	err = ts.Execute(w, data)
@@ -283,4 +287,147 @@ func (app application) deleteUnitHandler(w http.ResponseWriter, r *http.Request)
 	_ = app.units.DelUn(app.ctx, id)
 
 	w.WriteHeader(http.StatusOK)
+}
+
+func (app *application) ExcelDownload(w http.ResponseWriter, r *http.Request) {
+	// Создаем новый файл Excel
+	f := excelize.NewFile()
+	defer f.Close()
+
+	// Устанавливаем название листа
+	f.SetSheetName("Sheet1", "Справочник")
+
+	// Получаем данные
+	emp, err := app.employees.GetEmp(app.ctx)
+	if err != nil {
+		app.errorLog.Fatal(err)
+		http.Error(w, "Ошибка получения сотрудников", http.StatusInternalServerError)
+		return
+	}
+
+	unit, err := app.units.GetUn(app.ctx)
+	if err != nil {
+		app.errorLog.Fatal(err)
+		http.Error(w, "Ошибка получения отделов", http.StatusInternalServerError)
+		return
+	}
+
+	emun := app.UnifEmpUnit(emp, unit)
+	emun = sortedEmUn(emun)
+
+	currentRow := 1 // Начинаем с 1 строки (в Excel строки начинаются с 1)
+
+	// Создаем стиль для объединенных ячеек отделов
+	departmentStyle, err := f.NewStyle(&excelize.Style{
+		Fill: excelize.Fill{
+			Type:    "pattern",
+			Color:   []string{"#0c2b59"},
+			Pattern: 1,
+		},
+		Font: &excelize.Font{
+			Bold: true,
+			Size: 14,
+		},
+		Alignment: &excelize.Alignment{
+			Horizontal: "center",
+			Vertical:   "center",
+		},
+	})
+	if err != nil {
+		app.errorLog.Printf("Ошибка создания стиля: %v", err)
+	}
+
+	// Создаем стиль для заголовков сотрудников
+	headerStyle, err := f.NewStyle(&excelize.Style{
+		Font: &excelize.Font{
+			Bold: true,
+		},
+		Fill: excelize.Fill{
+			Type:    "pattern",
+			Color:   []string{"#6a94d3"},
+			Pattern: 1,
+		},
+	})
+
+	cellStyle, err := f.NewStyle(&excelize.Style{
+		Font: &excelize.Font{
+			Size: 14,
+		},
+	})
+
+	if err != nil {
+		app.errorLog.Printf("Ошибка создания стиля заголовков: %v", err)
+	}
+
+	// Добавляем заголовки для данных сотрудников (если нужно)
+	headers := []string{"Должность", "Номер", "ФИО", "Email", "Кабинет"}
+	for i, header := range headers {
+		cell, _ := excelize.CoordinatesToCellName(i+1, currentRow)
+		f.SetCellValue("Справочник", cell, header)
+		if headerStyle != 0 {
+			f.SetCellStyle("Справочник", cell, cell, headerStyle)
+		}
+	}
+	currentRow++
+
+	for _, v := range emun {
+		// Объединяем ячейки для отдела (A:E - 5 колонок)
+		startCell, _ := excelize.CoordinatesToCellName(1, currentRow) // A
+		endCell, _ := excelize.CoordinatesToCellName(5, currentRow)   // E
+
+		err := f.MergeCell("Справочник", startCell, endCell)
+		if err != nil {
+			app.errorLog.Printf("Ошибка объединения ячеек: %v", err)
+		}
+
+		// Заполняем объединенную ячейку данными отдела
+		f.SetCellValue("Справочник", startCell, v.Unit.Label+" - "+v.Unit.Email)
+
+		// Применяем стиль к объединенной ячейке
+		if departmentStyle != 0 {
+			f.SetCellStyle("Справочник", startCell, endCell, departmentStyle)
+		}
+
+		currentRow++
+
+		// Добавляем сотрудников отдела
+		for _, w := range v.Employees {
+			// Заполняем данные сотрудника
+			f.SetCellValue("Справочник", "A"+strconv.Itoa(currentRow), w.JobTitle)
+			f.SetCellStyle("Справочник", "A"+strconv.Itoa(currentRow), "A"+strconv.Itoa(currentRow), cellStyle)
+			f.SetCellValue("Справочник", "B"+strconv.Itoa(currentRow), w.ShortNum)
+			f.SetCellStyle("Справочник", "B"+strconv.Itoa(currentRow), "B"+strconv.Itoa(currentRow), cellStyle)
+			f.SetCellValue("Справочник", "C"+strconv.Itoa(currentRow), w.Fio)
+			f.SetCellStyle("Справочник", "C"+strconv.Itoa(currentRow), "C"+strconv.Itoa(currentRow), cellStyle)
+			f.SetCellValue("Справочник", "D"+strconv.Itoa(currentRow), w.Email)
+			f.SetCellStyle("Справочник", "D"+strconv.Itoa(currentRow), "D"+strconv.Itoa(currentRow), cellStyle)
+			f.SetCellValue("Справочник", "E"+strconv.Itoa(currentRow), w.Cabinet)
+			f.SetCellStyle("Справочник", "E"+strconv.Itoa(currentRow), "E"+strconv.Itoa(currentRow), cellStyle)
+
+			currentRow++
+		}
+
+		// Добавляем пустую строку между отделами для лучшей читаемости
+		currentRow++
+	}
+
+	// Устанавливаем авто-ширину колонок для лучшего отображения
+	f.SetColWidth("Справочник", "A", "A", 100) // Должность
+	f.SetColWidth("Справочник", "B", "B", 15)  // Короткий номер
+	f.SetColWidth("Справочник", "C", "C", 50)  // ФИО
+	f.SetColWidth("Справочник", "D", "D", 35)  // Email
+	f.SetColWidth("Справочник", "E", "E", 20)  // Кабинет
+
+	// Устанавливаем заголовки HTTP ответа
+	w.Header().Set("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+	w.Header().Set("Content-Disposition", "attachment; filename=Phonebook.xlsx")
+	w.Header().Set("Content-Transfer-Encoding", "binary")
+	w.Header().Set("Expires", "0")
+
+	// Записываем файл в ResponseWriter
+	if err := f.Write(w); err != nil {
+		app.errorLog.Printf("Ошибка записи Excel файла: %v", err)
+		http.Error(w, "Ошибка при создании файла", http.StatusInternalServerError)
+		return
+	}
 }

@@ -22,6 +22,7 @@ type application struct {
 	employees     *postgresql.EmployeesModel
 	users         *postgresql.UsersModel
 	units         *postgresql.UnitsModel
+	audit         *postgresql.AuditModel
 	templateCache map[string]*template.Template
 	flag          bool
 }
@@ -71,6 +72,7 @@ func main() {
 		ctx:           ctx,
 		employees:     &postgresql.EmployeesModel{DB: db},
 		units:         &postgresql.UnitsModel{DB: db},
+		audit:         &postgresql.AuditModel{DB: db},
 		templateCache: templateCache,
 		flag:          false,
 	}
