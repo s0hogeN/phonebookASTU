@@ -325,8 +325,9 @@ func (app *application) ExcelDownload(w http.ResponseWriter, r *http.Request) {
 			Pattern: 1,
 		},
 		Font: &excelize.Font{
-			Bold: true,
-			Size: 14,
+			Bold:  true,
+			Size:  14,
+			Color: string("#ffffff"),
 		},
 		Alignment: &excelize.Alignment{
 			Horizontal: "center",
