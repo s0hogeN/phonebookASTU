@@ -368,7 +368,8 @@ font-style: italic;
 }
 
 .unit-title .contact {
-    color: rgb(4, 93, 153);
+    color: rgb(0, 0, 0);
+    font-style: oblique;
 
     font-weight: 600;
     font-size: 14px;
@@ -677,6 +678,12 @@ color: #003399;
 }
 
 @media (max-width: 768px) {
+    .navigation-container {
+        display: flex;
+        flex-direction: column !important;
+        align-items: center;
+        justify-content: space-between;
+    }   
     .phone-num, .job-title, .email, .fio {
         width: auto !important;
     }
