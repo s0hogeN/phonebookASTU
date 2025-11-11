@@ -717,6 +717,8 @@ color: #003399;
         width: 30% !important;
 
         border-right: 2px solid #9e9fa5 !important;
+
+        font-size: 13px;
     }
     
     #employees-container .container-book #container-main .container-row .cont-el {
