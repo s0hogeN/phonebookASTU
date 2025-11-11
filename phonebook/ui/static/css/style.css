@@ -708,9 +708,10 @@ color: #003399;
     }
 
     .cont-el p {
-        word-wrap: break-word !important;
-        overflow-wrap: break-word !important;
-        hyphens: auto !important;
+        word-wrap: normal !important;
+        overflow-wrap: normal !important;
+        hyphens: none !important;
+        white-space: normal !important;
     }
 
     .cont-info-2 {
