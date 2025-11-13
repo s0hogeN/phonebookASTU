@@ -8,6 +8,7 @@ body {
     min-height: 940px;
 
     align-items: center;
+    justify-content: space-between;
 }
 
 html, body {
