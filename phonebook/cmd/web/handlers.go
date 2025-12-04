@@ -172,13 +172,26 @@ func (app *application) AdminInter(w http.ResponseWriter, r *http.Request) {
 }
 
 func (app application) getEmployeesHandler(w http.ResponseWriter, r *http.Request) {
+	units, err := app.units.GetUn(app.ctx)
+	if err != nil {
+		app.errorLog.Fatal(err)
+	}
 	employees, err := app.employees.GetEmp(app.ctx)
 	if err != nil {
 		app.errorLog.Fatal(err)
 	}
 
+	eun := app.UnifEmpUnit(employees, units)
+
+	var emp []*models.Employees
+	for _, v := range eun {
+		for _, e := range v.Employees {
+			emp = append(emp, &e)
+		}
+	}
+
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(employees)
+	json.NewEncoder(w).Encode(emp)
 }
 
 func (app application) createEmpHandler(w http.ResponseWriter, r *http.Request) {

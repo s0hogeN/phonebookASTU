@@ -17,6 +17,7 @@ type Employees struct {
 	ShortNum  string `json:"short_num"` // Короткий номер
 	UnitGen   string `json:"unit_general"`
 	SerialNum int    `json:"serialnum"`
+	Parent    string `json:"parent"`
 }
 
 // Подразделения

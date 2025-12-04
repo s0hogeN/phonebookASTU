@@ -9,6 +9,13 @@ function createEmployeeRow(emp) {
     const email = emp.email;
     const cabinet = emp.cabinet;
     const shortNum = emp.short_num;
+    const parent = emp.parent;
+    parent_class = ''
+    if (parent == 'yes') {
+        parent_class = 'parent';
+    } else if (parent == 'last') {
+        parent_class = 'last_parent';
+    }
     
     let phoneHtml = '';
     if (shortNum && shortNum !== '') {
@@ -30,11 +37,11 @@ function createEmployeeRow(emp) {
     }
         
     return `
-        <div class="container-row">
-            <div class="cont-el job-title"><p>${jobTitle}</p></div>
+        <div class="container-row ${parent_class}">
+            <div class="cont-el job-title ${parent_class}"><p>${jobTitle}</p></div>
             <div class="cont-el phone-num"><p>${phoneHtml}</p></div>
             <div class="cont-el phone-num"><p>${shortNum}</p></div>
-            <div class="cont-el"><p>${fio}</p></div>
+            <div class="cont-el ${parent_class}"><p>${fio}</p></div>
             <div class="cont-el email"><p>${emailHtml}</p></div>
             <div class="cont-el cabinet"><p>${cabinet}</p></div>
         </div>
@@ -48,6 +55,13 @@ function createEmployeeRowForMobile(emp) {
     const email = emp.email;
     const cabinet = emp.cabinet;
     const shortNum = emp.short_num;
+    const parent = emp.parent;
+    parent_class = ''
+    if (parent == 'yes') {
+        parent_class = 'parent';
+    } else if (parent == 'last') {
+        parent_class = 'last_parent';
+    }
     
     let phoneHtml = '';
     if (shortNum && shortNum !== '') {
@@ -68,14 +82,14 @@ function createEmployeeRowForMobile(emp) {
     }
         
     return `
-        <div class="container-row">
+        <div class="container-row ${parent_class}">
             <div class="cont-info-2">
                 <div class="cont-el phone-num"><p>${phoneHtml}</p></div>
                 <div class="cont-el email"><p>${emailHtml}</p></div>
             </div>
             <div class="cont-info-1">
-                <div class="cont-el fio"><p>${fio}</p></div>
-                <div class="cont-el job-title"><p>${jobTitle}</p></div>
+                <div class="cont-el fio ${parent_class}"><p>${fio}</p></div>
+                <div class="cont-el job-title ${parent_class}"><p>${jobTitle}</p></div>
             </div>
             <div class="cont-el cabinet"><p>${cabinet}</p></div>
         </div>
@@ -127,8 +141,16 @@ function loadDepartmentData(departmentName) {
             const unitName = unit.label || departmentName;
             
             if (employees && employees.length > 0) {
-                fullHtml +=  `<div class="unit-title"><div>${unit.label || 'Неизвестное подразделение'}</div><div class="contact">эл. почта: <a href="mailto:${unit.email}">${unit.email}</a></div>
-                            <div class="contact">${unit.phone}</div></div>`;
+                title_email = '';
+                title_phone = '';
+                if (unit.email) {
+                    title_email += 'эл. почта: ';
+                }
+                if (unit.phone) {
+                    title_phone += 'номер отд.: '
+                }
+                fullHtml +=  `<div class="unit-title"><div>${unit.label || 'Неизвестное подразделение'}</div><div class="contact">${title_email}<a href="mailto:${unit.email || ''}">${unit.email}</a></div>
+                            <div class="contact">${title_phone + unit.phone}</div></div>`;
                 employees.forEach(emp => {
                     if (isMobileView()) {
                         fullHtml += createEmployeeRowForMobile(emp);

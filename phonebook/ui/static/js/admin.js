@@ -86,6 +86,7 @@ let currentView = 'employees';
                     <input type="text" id="newEmployeeShortNum" placeholder="Короткий номер">
                     <input type="text" id="newEmployeeUnitGen" placeholder="Генерально подразделение">
                     <input type="number" id="newEmployeeSerialNum" placeholder="Серийный номер">
+                    <input type="text" id="newEmployeeParent" placeholder="Руководитель(yes|no|last)">
                     <button onclick="addEmployee()">Добавить</button>
                 </div>
                 <table>
@@ -100,6 +101,7 @@ let currentView = 'employees';
                             <th>Короткий номер</th>
                             <th>Генеральное подразделение</th>
                             <th>Серийный номер</th>
+                            <th>Руководитель</th>
                             <th>Действия</th>
                         </tr>
                     </thead>
@@ -115,6 +117,7 @@ let currentView = 'employees';
                                 <td class="editable" onclick="editField(${emp.id}, 'short_num', '${emp.short_num}')">${emp.short_num}</td>
                                 <td class="editable" onclick="editField(${emp.id}, 'unit_general', '${emp.unit_general}')">${emp.unit_general}</td>
                                 <td class="editable" onclick="editField(${emp.id}, 'serialnum', ${emp.serialnum})">${emp.serialnum}</td>
+                                <td class="editable" onclick="editField(${emp.id}, 'parent', '${emp.parent}')">${emp.parent}</td>
                                 <td class="action-buttons">
                                     <button class="dropdown-toggle" onclick="deleteEmployee(${emp.id})">Удалить</button>
                                 </td>
@@ -196,7 +199,8 @@ let currentView = 'employees';
                 cabinet: document.getElementById('newEmployeeCabinet').value,
                 short_num: document.getElementById('newEmployeeShortNum').value,
                 unit_general: document.getElementById('newEmployeeUnitGen').value,
-                serialnum: parseInt(document.getElementById('newEmployeeSerialNum').value)
+                serialnum: parseInt(document.getElementById('newEmployeeSerialNum').value),
+                parent: document.getElementById('newEmployeeParent').value
             };
             
             fetch('/api/employees', {
@@ -218,6 +222,7 @@ let currentView = 'employees';
                 document.getElementById('newEmployeeShortNum').value = '';
                 document.getElementById('newEmployeeUnitGen').value = '';
                 document.getElementById('newEmployeeSerialNum').value = '';
+                document.getElementById('newEmployeeParent').value = '';
             })
             .catch(error => console.error('Error:', error));
         }
